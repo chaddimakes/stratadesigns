@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#141414"/>
+  <!-- Upper tube -->
+  <rect x="120" y="240" width="480" height="24" rx="12" fill="#1a1a1a" stroke="#ea580c" stroke-width="2"/>
+  <!-- Lower tube -->
+  <rect x="120" y="310" width="480" height="24" rx="12" fill="#1a1a1a" stroke="#ea580c" stroke-width="2"/>
+  <!-- Kick-out -->
+  <path d="M600 252 L680 290 L680 330 L600 322" fill="none" stroke="#ea580c" stroke-width="2"/>
+  <rect x="660" y="280" width="40" height="24" rx="12" fill="#1a1a1a" stroke="#ea580c" stroke-width="2"/>
+  <!-- Mounting tabs -->
+  <rect x="140" y="220" width="30" height="20" rx="2" fill="#2a2a2a"/>
+  <rect x="300" y="220" width="30" height="20" rx="2" fill="#2a2a2a"/>
+  <rect x="460" y="220" width="30" height="20" rx="2" fill="#2a2a2a"/>
+  <!-- Vertical supports -->
+  <rect x="180" y="264" width="6" height="46" fill="#2a2a2a"/>
+  <rect x="340" y="264" width="6" height="46" fill="#2a2a2a"/>
+  <rect x="500" y="264" width="6" height="46" fill="#2a2a2a"/>
+  <text x="400" y="480" text-anchor="middle" fill="#737373" font-family="monospace" font-size="14">ROCK SLIDERS — STL</text>
+</svg>
