@@ -9,6 +9,7 @@ export interface Product {
   category: string;
   features: string[];
   purchaseUrl?: string;
+  stlFiles?: string[]; // filenames in private/stl/ — served securely via /api/download
 }
 
 export const products: Product[] = [
@@ -28,6 +29,7 @@ export const products: Product[] = [
       "Optimized for FDM — minimal supports",
       "Compatible with PLA, PETG, and ASA",
     ],
+    stlFiles: ["tacoma-front-skid-plate.stl"],
   },
   {
     slug: "tacoma-roof-rack-system",
@@ -45,6 +47,7 @@ export const products: Product[] = [
       "Full-size Tacoma fitment",
       "Open-rail design for accessories",
     ],
+    stlFiles: ["tacoma-roof-rack-system.stl"],
   },
   {
     slug: "tacoma-raptor-light-brackets",
@@ -68,7 +71,7 @@ export const products: Product[] = [
       "Left and right brackets included",
       "Print in PETG or ASA for durability",
     ],
-    purchaseUrl: "https://chaddimakes.gumroad.com/l/xszuqp",
+    stlFiles: ["tacoma-raptor-light-brackets.stl", "raptor_light_clip.stl"],
   },
   {
     slug: "tacoma-rock-sliders",
@@ -86,6 +89,7 @@ export const products: Product[] = [
       "Mirrored L/R pair included",
       "No supports needed — prints flat",
     ],
+    stlFiles: ["tacoma-rock-sliders.stl"],
   },
 ];
 
