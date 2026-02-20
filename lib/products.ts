@@ -72,7 +72,7 @@ export const products: Product[] = [
       "Print in PETG or ASA for durability",
     ],
     stlFiles: [
-      "Tacoma Raptor Light Brackets - STL File (3rd Gen OEM Honeycomb Grill) - FDM.stl",
+      "Tacoma_Raptor_Light_Brackets.stl",
       "Raptor_Light_Clip.stl",
     ],
   },
