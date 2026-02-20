@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { CartItem } from "@/app/context/cart-context";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
 export async function POST(req: NextRequest) {
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     const { items } = (await req.json()) as { items: CartItem[] };
 
     if (!items || items.length === 0) {
