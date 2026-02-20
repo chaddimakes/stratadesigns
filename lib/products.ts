@@ -71,7 +71,10 @@ export const products: Product[] = [
       "Left and right brackets included",
       "Print in PETG or ASA for durability",
     ],
-    stlFiles: ["tacoma-raptor-light-brackets.stl", "raptor_light_clip.stl"],
+    stlFiles: [
+      "Tacoma Raptor Light Brackets - STL File (3rd Gen OEM Honeycomb Grill) - FDM.stl",
+      "Raptor_Light_Clip.stl",
+    ],
   },
   {
     slug: "tacoma-rock-sliders",
