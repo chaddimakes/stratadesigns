@@ -17,28 +17,25 @@ export async function POST(req: NextRequest) {
       "http://localhost:3000";
 
     const session = await stripe.checkout.sessions.create({
-      ui_mode: "embedded",
-      payment_method_types: ["card"],
       line_items: items.map((item) => ({
         price_data: {
           currency: "usd",
           product_data: {
             name: item.name,
-            images: [],
           },
           unit_amount: Math.round(item.price * 100),
         },
         quantity: item.quantity,
       })),
       mode: "payment",
-      return_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/cart`,
       metadata: {
-        // comma-separated slugs so the success/download pages know what was purchased
         products: items.map((i) => i.slug).join(","),
       },
     });
 
-    return NextResponse.json({ clientSecret: session.client_secret });
+    return NextResponse.json({ url: session.url });
   } catch (err) {
     console.error("Stripe checkout error:", err);
     return NextResponse.json(
