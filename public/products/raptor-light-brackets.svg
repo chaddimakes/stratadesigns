@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#141414"/>
+
+  <!-- Grille outline -->
+  <rect x="120" y="160" width="560" height="260" rx="12" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
+
+  <!-- Honeycomb cells (3 rows x 7 cols) -->
+  <!-- Row 1 -->
+  <rect x="136" y="176" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="216" y="176" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="296" y="176" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="376" y="176" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="456" y="176" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="536" y="176" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="616" y="176" width="48" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+
+  <!-- Row 2 -->
+  <rect x="136" y="256" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="216" y="256" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="296" y="256" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="376" y="256" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="456" y="256" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="536" y="256" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="616" y="256" width="48" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+
+  <!-- Row 3 -->
+  <rect x="136" y="336" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="216" y="336" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="296" y="336" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="376" y="336" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="456" y="336" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="536" y="336" width="72" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+  <rect x="616" y="336" width="48" height="72" rx="5" fill="#111" stroke="#2a2a2a" stroke-width="1.5"/>
+
+  <!-- Left bracket highlight (first cell, row 2) -->
+  <rect x="136" y="256" width="72" height="72" rx="5" fill="#1e0e04" stroke="#ea580c" stroke-width="2"/>
+  <!-- Left bracket mounting tabs -->
+  <rect x="144" y="268" width="8" height="48" rx="2" fill="#ea580c" opacity="0.9"/>
+  <rect x="192" y="268" width="8" height="48" rx="2" fill="#ea580c" opacity="0.9"/>
+  <!-- Left light pod circle -->
+  <circle cx="172" cy="292" r="18" fill="none" stroke="#ea580c" stroke-width="2"/>
+  <circle cx="172" cy="292" r="10" fill="#ea580c" opacity="0.3"/>
+
+  <!-- Right bracket highlight (last full cell in row 2) -->
+  <rect x="536" y="256" width="72" height="72" rx="5" fill="#1e0e04" stroke="#ea580c" stroke-width="2"/>
+  <!-- Right bracket mounting tabs -->
+  <rect x="544" y="268" width="8" height="48" rx="2" fill="#ea580c" opacity="0.9"/>
+  <rect x="592" y="268" width="8" height="48" rx="2" fill="#ea580c" opacity="0.9"/>
+  <!-- Right light pod circle -->
+  <circle cx="572" cy="292" r="18" fill="none" stroke="#ea580c" stroke-width="2"/>
+  <circle cx="572" cy="292" r="10" fill="#ea580c" opacity="0.3"/>
+
+  <text x="400" y="500" text-anchor="middle" fill="#737373" font-family="monospace" font-size="14">RAPTOR LIGHT BRACKETS — STL</text>
+</svg>

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { products, getProductBySlug } from "@/lib/products";
+import ImageGallery from "@/app/components/image-gallery";
 import type { Metadata } from "next";
 
 type Params = Promise<{ slug: string }>;
@@ -50,15 +51,19 @@ export default async function ProductPage({
 
       <div className="grid gap-12 lg:grid-cols-2">
         {/* Image */}
-        <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-[#141414]">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
+        {product.images && product.images.length > 1 ? (
+          <ImageGallery images={product.images} alt={product.name} />
+        ) : (
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-[#141414]">
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
 
         {/* Details */}
         <div>
@@ -105,19 +110,26 @@ export default async function ProductPage({
                 <p className="font-medium text-foreground">FDM Optimized</p>
               </div>
               <div>
-                <p className="text-muted">Scale</p>
-                <p className="font-medium text-foreground">1:10</p>
-              </div>
-              <div>
                 <p className="text-muted">Supports</p>
                 <p className="font-medium text-foreground">Minimal / None</p>
               </div>
             </div>
           </div>
 
-          <button className="w-full rounded-lg bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover">
-            Add to Cart — ${product.price.toFixed(2)}
-          </button>
+          {product.purchaseUrl ? (
+            <a
+              href={product.purchaseUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full rounded-lg bg-accent px-7 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+            >
+              Buy Now — ${product.price.toFixed(2)}
+            </a>
+          ) : (
+            <button className="w-full rounded-lg bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover">
+              Add to Cart — ${product.price.toFixed(2)}
+            </button>
+          )}
         </div>
       </div>
     </div>

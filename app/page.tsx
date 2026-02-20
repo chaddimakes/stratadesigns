@@ -18,8 +18,8 @@ export default function Home() {
             <span className="text-accent">Off-Road Obsessed</span>
           </h1>
           <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted">
-            High-detail STL files for Toyota Tacoma scale accessories. Designed
-            for precision FDM printing, tested for accuracy, and ready for your
+            High-detail STL files for Toyota Tacoma accessories. Designed for
+            precision FDM printing, tested for accuracy, and ready for your
             next build.
           </p>
           <div className="flex items-center justify-center gap-4">
