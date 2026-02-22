@@ -68,8 +68,8 @@ export const products: Product[] = [
     supports: "Minimal / None",
   },
   {
-    slug: "tacoma-tweeter-adapter",
-    name: "Tacoma Tweeter Adapter",
+    slug: "tacoma-midrange-speaker-mount",
+    name: "Tacoma Midrange Speaker Mount",
     price: 5,
     description:
       "Print-ready STL mount designed to replace the factory tweeter bracket in all 3rd Gen Toyota Tacomas (2016-2023). Fits the JBL Stadium GTO20M Stadium Series 2-inch midrange speakers for a clean, factory-look install with no cutting or modifications required.",
