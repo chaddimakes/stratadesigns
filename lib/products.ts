@@ -138,7 +138,7 @@ export const products: Product[] = [
   {
     slug: "pelican-3310-els-bracket",
     name: "Pelican 3310 ELS Bed Rail Bracket",
-    price: 5,
+    price: 8,
     description:
       "Print-ready STL bracket designed to mount the Pelican 3310 ELS Emergency Lighting Station to your truck bed rail for quick, easy access.",
     longDescription:
