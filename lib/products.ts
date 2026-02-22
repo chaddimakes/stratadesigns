@@ -114,6 +114,28 @@ export const products: Product[] = [
     supports: "None",
   },
   {
+    slug: "tacoma-center-console-organizer",
+    name: "Tacoma Center Console Organizer",
+    price: 8,
+    description:
+      "Print-ready STL organizer designed to keep your Tacoma center console tidy. Unlike the flimsy multi-piece versions available on Amazon, this is a single-piece heavy duty organizer that fits perfectly with no assembly required.",
+    longDescription:
+      "Print-ready STL organizer designed to keep your Tacoma center console tidy. Unlike the flimsy multi-piece versions available on Amazon, this is a single-piece heavy duty organizer that fits perfectly with no assembly required.",
+    image: "/products/Tacoma_Center_Console_Organizer_01.jpg",
+    images: [
+      "/products/Tacoma_Center_Console_Organizer_01.jpg",
+      "/products/Tacoma_Center_Console_Organizer_CAD.jpg",
+    ],
+    category: "Interior",
+    features: [
+      "Single-piece heavy duty organizer — no assembly required",
+      "Fits Toyota Tacoma center console",
+    ],
+    material: "PETG or ABS",
+    stlFiles: ["Tacoma_Center_Console_Organizer.stl"],
+    supports: "None",
+  },
+  {
     slug: "pelican-3310-els-bracket",
     name: "Pelican 3310 ELS Bed Rail Bracket",
     price: 5,
