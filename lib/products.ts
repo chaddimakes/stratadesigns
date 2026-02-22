@@ -68,6 +68,29 @@ export const products: Product[] = [
     supports: "Minimal / None",
   },
   {
+    slug: "tacoma-tweeter-adapter",
+    name: "Tacoma Tweeter Adapter",
+    price: 5,
+    description:
+      "Print-ready STL mount designed to replace the factory tweeter bracket in all 3rd Gen Toyota Tacomas (2016-2023). Fits the JBL Stadium GTO20M Stadium Series 2-inch midrange speakers for a clean, factory-look install with no cutting or modifications required.",
+    longDescription:
+      "Print-ready STL mount designed to replace the factory tweeter bracket in all 3rd Gen Toyota Tacomas (2016-2023). Fits the JBL Stadium GTO20M Stadium Series 2-inch midrange speakers for a clean, factory-look install with no cutting or modifications required.",
+    image: "/products/Tacoma_Tweeter_Adapter_01.jpg",
+    images: [
+      "/products/Tacoma_Tweeter_Adapter_01.jpg",
+      "/products/Tacoma_Tweeter_Adapter_02.jpg",
+    ],
+    category: "Audio",
+    features: [
+      "Fits all 3rd Gen Toyota Tacomas (2016-2023)",
+      "Designed for JBL Stadium GTO20M 2-inch midrange speakers",
+      "No cutting or modifications required",
+    ],
+    material: "PETG or ABS",
+    stlFiles: ["Tacoma_tweeter_adapter.stl"],
+    supports: "None",
+  },
+  {
     slug: "pelican-3310-els-bracket",
     name: "Pelican 3310 ELS Bed Rail Bracket",
     price: 5,
