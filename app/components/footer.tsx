@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="border-t border-border bg-background">
@@ -11,10 +13,26 @@ export default function Footer() {
               Precision Engineered. Trail Tested.
             </p>
           </div>
-          <p className="text-xs text-muted">
-            &copy; {new Date().getFullYear()} Strata Designs. All rights
-            reserved.
-          </p>
+          <div className="flex flex-col items-center gap-2 sm:items-end">
+            <p className="text-xs text-muted">
+              &copy; {new Date().getFullYear()} Strata Designs. All rights
+              reserved.
+            </p>
+            <div className="flex gap-4">
+              <Link
+                href="/terms"
+                className="text-xs text-muted hover:text-foreground transition-colors"
+              >
+                Terms of Service
+              </Link>
+              <Link
+                href="/privacy"
+                className="text-xs text-muted hover:text-foreground transition-colors"
+              >
+                Privacy Policy
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
