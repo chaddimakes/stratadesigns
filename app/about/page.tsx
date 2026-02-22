@@ -38,13 +38,12 @@ export default function AboutPage() {
           Based in the{" "}
           <span className="text-foreground font-medium">Pacific Northwest</span>
           , where the trails demand gear that holds up and the weather demands
-          materials that don&apos;t. PETG and ASA are the defaults here for a
-          reason.
+          materials that last — PETG and ASA are the defaults here for a reason.
         </p>
         <p>
           This isn&apos;t a big brand. It&apos;s one person who loves trucks,
           printing, and solving real problems with well-designed parts. If
-          something&apos;s off with a file, I want to hear about it.
+          something&apos;s off with a file, I&apos;ll make it right.
         </p>
       </div>
 
