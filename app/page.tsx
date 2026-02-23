@@ -16,7 +16,7 @@ export default function Home() {
           priority
         />
         {/* Dark overlay for text legibility */}
-        <div className="absolute inset-0 bg-black/65" />
+        <div className="absolute inset-0 bg-black/40" />
         {/* Accent gradient tint */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/15 via-transparent to-transparent" />
         <div className="relative mx-auto max-w-6xl px-6 py-28 text-center">
