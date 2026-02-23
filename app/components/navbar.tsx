@@ -19,7 +19,7 @@ export default function Navbar() {
             <span className="block text-lg font-bold tracking-tight text-foreground">
               Strata Design
             </span>
-            <span className="block text-[11px] uppercase tracking-widest text-muted">
+            <span className="hidden sm:block text-[11px] uppercase tracking-widest text-muted">
               Precision Engineered. Trail Tested.
             </span>
           </div>
