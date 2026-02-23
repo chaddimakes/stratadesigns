@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { products } from "@/lib/products";
 import ProductCard from "./components/product-card";
 
@@ -7,7 +8,18 @@ export default function Home() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent" />
+        {/* Background photo — Unsplash: off-road trail scene */}
+        <Image
+          src="https://images.unsplash.com/photo-1547636067-1fc3e8e5a99d?auto=format&fit=crop&w=1920&q=80"
+          alt="Off-road trail"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        {/* Dark overlay for text legibility */}
+        <div className="absolute inset-0 bg-black/65" />
+        {/* Accent gradient tint */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/15 via-transparent to-transparent" />
         <div className="relative mx-auto max-w-6xl px-6 py-28 text-center">
           <p className="mb-4 text-sm font-medium uppercase tracking-widest text-accent">
             Premium 3D Printable Files

@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import Link from "next/link";
 import { getProductBySlug } from "@/lib/products";
 import ClearCartOnSuccess from "@/app/components/clear-cart-on-success";
+import SendConfirmationEmail from "@/app/components/send-confirmation-email";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -50,6 +51,7 @@ export default async function SuccessPage({ searchParams }: Props) {
   return (
     <>
       <ClearCartOnSuccess />
+      <SendConfirmationEmail sessionId={session_id} />
       <div className="mx-auto max-w-xl px-6 py-20">
         {/* Success badge */}
         <div className="mb-8 flex flex-col items-center text-center">
@@ -112,8 +114,9 @@ export default async function SuccessPage({ searchParams }: Props) {
         <div className="mt-8 rounded-lg border border-border bg-surface p-5 text-sm text-muted">
           <p className="mb-1 font-semibold text-foreground">Save this page</p>
           <p>
-            Bookmark this URL to re-download your files any time. A receipt was
-            also sent to your email by Stripe.
+            A confirmation email with your download links has been sent to your
+            email address. Bookmark this page to re-download your files any
+            time.
           </p>
         </div>
 
