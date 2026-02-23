@@ -19,6 +19,17 @@ export const metadata: Metadata = {
   title: "Strata Design — Precision Engineered. Trail Tested.",
   description:
     "Premium STL files for Toyota Tacoma off-road accessories. 3D printable scale models, skid plates, roof racks, and more.",
+  openGraph: {
+    title: "Strata Design",
+    description: "Premium 3D printable STL files for Toyota Tacoma accessories.",
+    url: "https://stratadesigns.vercel.app",
+    type: "website",
+    images: [{ url: "https://stratadesigns.vercel.app/og-image.jpg" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["https://stratadesigns.vercel.app/og-image.jpg"],
+  },
 };
 
 export default function RootLayout({
