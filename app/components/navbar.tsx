@@ -10,13 +10,13 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-accent font-mono text-sm font-bold text-white">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-3 sm:px-6 sm:py-4">
+        <Link href="/" className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-accent font-mono text-xs font-bold text-white sm:h-9 sm:w-9 sm:text-sm">
             SD
           </div>
           <div className="leading-tight">
-            <span className="block text-lg font-bold tracking-tight text-foreground">
+            <span className="block text-sm font-bold tracking-tight text-foreground sm:text-lg">
               Strata Design
             </span>
             <span className="hidden sm:block text-[11px] uppercase tracking-widest text-muted">
@@ -25,10 +25,10 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-3 sm:gap-8">
           <Link
             href="/"
-            className={`text-sm font-medium transition-colors hover:text-accent ${
+            className={`text-xs font-medium transition-colors hover:text-accent sm:text-sm ${
               pathname === "/" ? "text-accent" : "text-muted"
             }`}
           >
@@ -36,7 +36,7 @@ export default function Navbar() {
           </Link>
           <Link
             href="/products"
-            className={`text-sm font-medium transition-colors hover:text-accent ${
+            className={`text-xs font-medium transition-colors hover:text-accent sm:text-sm ${
               pathname.startsWith("/products") ? "text-accent" : "text-muted"
             }`}
           >
@@ -44,7 +44,7 @@ export default function Navbar() {
           </Link>
           <Link
             href="/about"
-            className={`text-sm font-medium transition-colors hover:text-accent ${
+            className={`text-xs font-medium transition-colors hover:text-accent sm:text-sm ${
               pathname === "/about" ? "text-accent" : "text-muted"
             }`}
           >
@@ -52,7 +52,7 @@ export default function Navbar() {
           </Link>
           <Link
             href="/contact"
-            className={`text-sm font-medium transition-colors hover:text-accent ${
+            className={`text-xs font-medium transition-colors hover:text-accent sm:text-sm ${
               pathname === "/contact" ? "text-accent" : "text-muted"
             }`}
           >
@@ -63,7 +63,7 @@ export default function Navbar() {
           <Link
             href="/cart"
             aria-label={`Cart (${totalItems} items)`}
-            className={`relative flex items-center transition-colors hover:text-accent ${
+            className={`relative flex items-center mr-1 transition-colors hover:text-accent ${
               pathname === "/cart" ? "text-accent" : "text-muted"
             }`}
           >
