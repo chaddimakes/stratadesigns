@@ -41,23 +41,23 @@ export async function POST(req: NextRequest) {
   const successUrl = `${baseUrl}/success?session_id=${session_id}`;
 
   const productsHtml = purchasedProducts
-    .map((product) => {
-      if (!product) return "";
-      const files = product.stlFiles ?? [];
-      const fileLinks = files
-        .map((file) => {
-          const url = `${baseUrl}/api/download?session_id=${session_id}&slug=${product.slug}&file=${encodeURIComponent(file)}`;
-          return `<li style="margin-bottom:6px;"><a href="${url}" style="color:#e07b39;text-decoration:none;font-size:13px;">${file}</a></li>`;
-        })
-        .join("");
-      return `
-        <div style="margin-bottom:12px;padding:16px;border:1px solid #2a2a2a;border-radius:8px;background:#161616;">
-          <p style="margin:0 0 10px;font-weight:600;color:#f0f0f0;font-size:15px;">${product.name}</p>
-          <ul style="margin:0;padding-left:18px;color:#999;">${fileLinks}</ul>
-        </div>
-      `;
-    })
-    .join("");
+  .map((product) => {
+    if (!product) return "";
+    const files = product.stlFiles ?? [];
+    const fileLinks = files
+      .map((file) => {
+        const url = `${baseUrl}/api/download?session_id=${session_id}&slug=${product.slug}&file=${encodeURIComponent(file)}`;
+        return `<li style="margin-bottom:8px;"><a href="${url}" style="color:#e07b39;text-decoration:none;font-size:13px;font-weight:500;">⬇ ${file}</a></li>`;
+      })
+      .join("");
+    return `
+      <div style="margin-bottom:12px;padding:16px 20px;border:1px solid #e8e8e8;border-radius:6px;background:#fafafa;">
+        <p style="margin:0 0 10px;font-weight:600;color:#111111;font-size:14px;">${product.name}</p>
+        <ul style="margin:0;padding-left:18px;">${fileLinks}</ul>
+      </div>
+    `;
+  })
+  .join("");
 
   const orderTotal = purchasedProducts.reduce(
     (sum, p) => sum + (p?.price ?? 0),
