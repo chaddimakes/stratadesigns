@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         ${productsHtml}
 
         <p style="margin:20px 0 28px;font-size:13px;color:#666666;">
-          Order total: <strong style="color:#111111;">${orderTotal.toFixed(2)}</strong>
+          Order total: <strong style="color:#111111;">&#36;${orderTotal.toFixed(2)}</strong>
         </p>
 
         <hr style="border:none;border-top:1px solid #eeeeee;margin:0 0 24px;" />
