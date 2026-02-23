@@ -17,6 +17,8 @@ export default function Home() {
         />
         {/* Dark overlay for text legibility */}
         <div className="absolute inset-0 bg-black/40" />
+        {/* Top gradient overlay: black to transparent over top 30% */}
+        <div className="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-black to-transparent" />
         {/* Accent gradient tint */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/15 via-transparent to-transparent" />
         <div className="relative mx-auto max-w-6xl px-6 py-28 text-center">
@@ -39,12 +41,6 @@ export default function Home() {
               className="inline-flex items-center rounded-lg bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
             >
               Browse Products
-            </Link>
-            <Link
-              href="/products"
-              className="inline-flex items-center rounded-lg border border-border px-7 py-3 text-sm font-semibold text-foreground transition-colors hover:border-accent/40 hover:text-accent"
-            >
-              View All STLs
             </Link>
           </div>
         </div>
