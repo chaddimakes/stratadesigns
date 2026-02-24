@@ -6,11 +6,13 @@ import { useCart } from "@/app/context/cart-context";
 import { useRouter } from "next/navigation";
 import type { Product } from "@/lib/products";
 import ImageGallery from "./image-gallery";
+import Lightbox from "./lightbox";
 
 export default function ProductDetailClient({ product }: { product: Product }) {
   const { addItem, items } = useCart();
   const router = useRouter();
   const [added, setAdded] = useState(false);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<string | undefined>(
     product.variants?.[0]?.name,
   );
@@ -47,10 +49,15 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   }
 
   return (
+    <>
     <div className="grid gap-12 lg:grid-cols-2">
       {/* Image */}
       {hasVariantImage ? (
-        <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-[#141414]">
+        <div
+          className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-[#141414]"
+          style={{ cursor: "zoom-in" }}
+          onClick={() => setLightboxSrc(displayImage)}
+        >
           <Image
             src={displayImage}
             alt={`${product.name} — ${selectedVariant}`}
@@ -62,7 +69,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       ) : product.images && product.images.length > 1 ? (
         <ImageGallery images={product.images} alt={product.name} />
       ) : (
-        <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-[#141414]">
+        <div
+          className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-[#141414]"
+          style={{ cursor: "zoom-in" }}
+          onClick={() => setLightboxSrc(product.image)}
+        >
           <Image
             src={product.image}
             alt={product.name}
@@ -170,5 +181,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         </div>
       </div>
     </div>
+    {lightboxSrc && (
+      <Lightbox src={lightboxSrc} alt={product.name} onClose={() => setLightboxSrc(null)} />
+    )}
+    </>
   );
 }

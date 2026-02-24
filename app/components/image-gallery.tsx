@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Lightbox from "./lightbox";
 
 interface ImageGalleryProps {
   images: string[];
@@ -10,10 +11,16 @@ interface ImageGalleryProps {
 
 export default function ImageGallery({ images, alt }: ImageGalleryProps) {
   const [selected, setSelected] = useState(0);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
   return (
+    <>
     <div className="flex flex-col gap-3">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-[#141414]">
+      <div
+        className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-[#141414]"
+        style={{ cursor: "zoom-in" }}
+        onClick={() => setLightboxSrc(images[selected])}
+      >
         <Image
           src={images[selected]}
           alt={`${alt} — image ${selected + 1}`}
@@ -38,5 +45,9 @@ export default function ImageGallery({ images, alt }: ImageGalleryProps) {
         </div>
       )}
     </div>
+    {lightboxSrc && (
+      <Lightbox src={lightboxSrc} alt={alt} onClose={() => setLightboxSrc(null)} />
+    )}
+    </>
   );
 }
