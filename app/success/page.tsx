@@ -48,6 +48,12 @@ export default async function SuccessPage({ searchParams }: Props) {
     .map((slug) => getProductBySlug(slug))
     .filter(Boolean);
 
+  let variantsMap: Record<string, string> = {};
+  try {
+    const raw = session.metadata?.variants;
+    if (raw) variantsMap = JSON.parse(raw) as Record<string, string>;
+  } catch { /* ignore */ }
+
   return (
     <>
       <ClearCartOnSuccess />
@@ -74,7 +80,9 @@ export default async function SuccessPage({ searchParams }: Props) {
         <div className="space-y-4">
           {purchasedProducts.map((product) => {
             if (!product) return null;
-            const files = product.stlFiles ?? [];
+            const variantName = variantsMap[product.slug];
+            const variant = product.variants?.find((v) => v.name === variantName);
+            const files = variant?.stlFiles ?? product.stlFiles ?? [];
             return (
               <div
                 key={product.slug}
@@ -82,6 +90,11 @@ export default async function SuccessPage({ searchParams }: Props) {
               >
                 <p className="mb-3 font-semibold text-foreground">
                   {product.name}
+                  {variantName && (
+                    <span className="ml-2 text-xs font-normal text-muted">
+                      — {variantName}
+                    </span>
+                  )}
                 </p>
                 <div className="space-y-2">
                   {files.map((filename) => {

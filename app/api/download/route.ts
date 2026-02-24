@@ -46,16 +46,40 @@ export async function GET(req: NextRequest) {
   }
 
   const product = getProductBySlug(slug);
-  if (!product?.stlFiles?.length) {
+  if (!product) {
     return NextResponse.json(
       { error: "No files associated with this product" },
       { status: 404 },
     );
   }
 
-  // Verify the requested file actually belongs to this product.
+  // Resolve which files this purchase unlocks — variant takes priority over top-level stlFiles.
+  let variantsMap: Record<string, string> = {};
+  try {
+    const raw = session.metadata?.variants;
+    if (raw) variantsMap = JSON.parse(raw) as Record<string, string>;
+  } catch { /* ignore malformed metadata */ }
+
+  const variantName = variantsMap[slug];
+  let allowedFiles: string[];
+
+  if (variantName && product.variants?.length) {
+    const variant = product.variants.find((v) => v.name === variantName);
+    allowedFiles = variant?.stlFiles ?? [];
+  } else {
+    allowedFiles = product.stlFiles ?? [];
+  }
+
+  if (!allowedFiles.length) {
+    return NextResponse.json(
+      { error: "No files associated with this product" },
+      { status: 404 },
+    );
+  }
+
+  // Verify the requested file actually belongs to this product/variant.
   // This prevents a buyer of product A from downloading files from product B.
-  if (!product.stlFiles.includes(file)) {
+  if (!allowedFiles.includes(file)) {
     return NextResponse.json(
       { error: "File not part of this product" },
       { status: 403 },

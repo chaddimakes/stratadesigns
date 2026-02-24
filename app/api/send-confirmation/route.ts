@@ -37,22 +37,33 @@ export async function POST(req: NextRequest) {
     .map((slug) => getProductBySlug(slug))
     .filter(Boolean);
 
+  let variantsMap: Record<string, string> = {};
+  try {
+    const raw = session.metadata?.variants;
+    if (raw) variantsMap = JSON.parse(raw) as Record<string, string>;
+  } catch { /* ignore */ }
+
   const baseUrl = (origin as string) || "https://chaddimakes.com";
   const successUrl = `${baseUrl}/success?session_id=${session_id}`;
 
   const productsHtml = purchasedProducts
   .map((product) => {
     if (!product) return "";
-    const files = product.stlFiles ?? [];
+    const variantName = variantsMap[product.slug];
+    const variant = product.variants?.find((v) => v.name === variantName);
+    const files = variant?.stlFiles ?? product.stlFiles ?? [];
     const fileLinks = files
       .map((file) => {
         const url = `${baseUrl}/api/download?session_id=${session_id}&slug=${product.slug}&file=${encodeURIComponent(file)}`;
         return `<li style="margin-bottom:8px;"><a href="${url}" style="color:#e07b39;text-decoration:none;font-size:13px;font-weight:500;">⬇ ${file}</a></li>`;
       })
       .join("");
+    const displayName = variantName
+      ? `${product.name} <span style="font-weight:400;color:#888888;">— ${variantName}</span>`
+      : product.name;
     return `
       <div style="margin-bottom:12px;padding:16px 20px;border:1px solid #e8e8e8;border-radius:6px;background:#fafafa;">
-        <p style="margin:0 0 10px;font-weight:600;color:#111111;font-size:14px;">${product.name}</p>
+        <p style="margin:0 0 10px;font-weight:600;color:#111111;font-size:14px;">${displayName}</p>
         <ul style="margin:0;padding-left:18px;">${fileLinks}</ul>
       </div>
     `;

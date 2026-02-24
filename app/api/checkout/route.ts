@@ -21,7 +21,9 @@ export async function POST(req: NextRequest) {
         price_data: {
           currency: "usd",
           product_data: {
-            name: item.name,
+            name: item.variantName
+              ? `${item.name} — ${item.variantName}`
+              : item.name,
           },
           unit_amount: Math.round(item.price * 100),
         },
@@ -32,6 +34,13 @@ export async function POST(req: NextRequest) {
       cancel_url: `${origin}/cart`,
       metadata: {
         products: items.map((i) => i.slug).join(","),
+        variants: JSON.stringify(
+          Object.fromEntries(
+            items
+              .filter((i) => i.variantName !== undefined)
+              .map((i) => [i.slug, i.variantName]),
+          ),
+        ),
       },
     });
 

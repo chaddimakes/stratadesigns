@@ -1,3 +1,8 @@
+export interface ProductVariant {
+  name: string;
+  stlFiles: string[];
+}
+
 export interface Product {
   slug: string;
   name: string;
@@ -10,6 +15,7 @@ export interface Product {
   features: string[];
   purchaseUrl?: string;
   stlFiles?: string[]; // filenames in private/stl/ — served securely via /api/download
+  variants?: ProductVariant[]; // if set, stlFiles are per-variant instead of top-level
   supports?: string;
   material?: string;
 }
@@ -134,6 +140,48 @@ export const products: Product[] = [
     material: "PETG or ABS",
     stlFiles: ["Tacoma_Center_Console_Organizer.stl"],
     supports: "None",
+  },
+  {
+    slug: "tacoma-dc-power-panel",
+    name: "Tacoma DC Power Panel",
+    price: 30,
+    description:
+      "Print-ready STL that replaces the interior door panel on the 2020 Toyota Tacoma, purpose-built to mount the Blue Sea Systems 4365 Accessory Panel, Blue Sea Mini OLED Meter, and an optional PWM dimmer switch for controlling bed lights. A clean, factory-look solution for adding 12V power to your truck bed — run a fridge, USB chargers, or any 12V accessories. Recommended materials: PETG, ABS, or ASA.",
+    longDescription:
+      "Print-ready STL that replaces the interior door panel on the 2020 Toyota Tacoma, purpose-built to mount the Blue Sea Systems 4365 Accessory Panel, Blue Sea Mini OLED Meter, and an optional PWM dimmer switch for controlling bed lights. A clean, factory-look solution for adding 12V power to your truck bed — run a fridge, USB chargers, or any 12V accessories. Recommended materials: PETG, ABS, or ASA.",
+    image: "/products/Tacoma_DC_Power_Panel_01.jpg",
+    images: [
+      "/products/Tacoma_DC_Power_Panel_01.jpg",
+      "/products/Tacoma_DC_Power_Panel_dimmer_CAD.jpg",
+      "/products/Tacoma_DC_Power_Panel_no_dimmer_CAD.jpg",
+    ],
+    category: "Electrical",
+    features: [
+      "Replaces factory interior door panel on 2020 Toyota Tacoma",
+      "Mounts Blue Sea Systems 4365 Accessory Panel and Mini OLED Meter",
+      "Optional PWM dimmer switch variant for bed light control",
+      "Clean, factory-look 12V power for fridge, USB chargers, and accessories",
+    ],
+    material: "PETG, ABS, or ASA",
+    supports: "None",
+    variants: [
+      {
+        name: "Without Dimmer",
+        stlFiles: [
+          "Tacoma_DC_Power_Panel_No_Dimmer.stl",
+          "Tacoma_DC_Power_Panel_Knob.stl",
+          "Tacoma_DC_Power_Panel_Latch.stl",
+        ],
+      },
+      {
+        name: "With Dimmer",
+        stlFiles: [
+          "Tacoma_DC_Power_Panel_Dimmer_version.stl",
+          "Tacoma_DC_Power_Panel_Knob.stl",
+          "Tacoma_DC_Power_Panel_Latch.stl",
+        ],
+      },
+    ],
   },
   {
     slug: "pelican-3310-els-bracket",

@@ -14,6 +14,7 @@ export interface CartItem {
   price: number;
   image: string;
   quantity: number;
+  variantName?: string;
 }
 
 interface CartState {
@@ -32,6 +33,20 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     case "ADD_ITEM": {
       const existing = state.items.find((i) => i.slug === action.item.slug);
       if (existing) {
+        // If a different variant is selected, replace the item entirely
+        if (
+          action.item.variantName !== undefined &&
+          action.item.variantName !== existing.variantName
+        ) {
+          return {
+            ...state,
+            items: state.items.map((i) =>
+              i.slug === action.item.slug
+                ? { ...action.item, quantity: 1 }
+                : i,
+            ),
+          };
+        }
         return {
           ...state,
           items: state.items.map((i) =>
