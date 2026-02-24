@@ -41,6 +41,13 @@ export async function POST(req: NextRequest) {
               .map((i) => [i.slug, i.variantName]),
           ),
         ),
+        files: JSON.stringify(
+          Object.fromEntries(
+            items
+              .filter((i) => i.selectedFiles !== undefined)
+              .map((i) => [i.slug, i.selectedFiles]),
+          ),
+        ),
       },
     });
 

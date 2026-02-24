@@ -15,6 +15,7 @@ export interface CartItem {
   image: string;
   quantity: number;
   variantName?: string;
+  selectedFiles?: string[];
 }
 
 interface CartState {
@@ -33,11 +34,15 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     case "ADD_ITEM": {
       const existing = state.items.find((i) => i.slug === action.item.slug);
       if (existing) {
-        // If a different variant is selected, replace the item entirely
-        if (
+        // Replace if the file selection changed (toggle products)
+        const filesChanged =
+          action.item.selectedFiles !== undefined &&
+          JSON.stringify(action.item.selectedFiles) !== JSON.stringify(existing.selectedFiles);
+        // Replace if a different named variant is selected
+        const variantChanged =
           action.item.variantName !== undefined &&
-          action.item.variantName !== existing.variantName
-        ) {
+          action.item.variantName !== existing.variantName;
+        if (filesChanged || variantChanged) {
           return {
             ...state,
             items: state.items.map((i) =>

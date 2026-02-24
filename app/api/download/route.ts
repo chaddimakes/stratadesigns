@@ -53,21 +53,32 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // Resolve which files this purchase unlocks — variant takes priority over top-level stlFiles.
+  // Resolve which files this purchase unlocks.
+  // Priority: explicit files metadata (toggle products) > variant lookup > top-level stlFiles.
+  let filesMap: Record<string, string[]> = {};
+  try {
+    const raw = session.metadata?.files;
+    if (raw) filesMap = JSON.parse(raw) as Record<string, string[]>;
+  } catch { /* ignore malformed metadata */ }
+
   let variantsMap: Record<string, string> = {};
   try {
     const raw = session.metadata?.variants;
     if (raw) variantsMap = JSON.parse(raw) as Record<string, string>;
   } catch { /* ignore malformed metadata */ }
 
-  const variantName = variantsMap[slug];
   let allowedFiles: string[];
 
-  if (variantName && product.variants?.length) {
-    const variant = product.variants.find((v) => v.name === variantName);
-    allowedFiles = variant?.stlFiles ?? [];
+  if (filesMap[slug]) {
+    allowedFiles = filesMap[slug];
   } else {
-    allowedFiles = product.stlFiles ?? [];
+    const variantName = variantsMap[slug];
+    if (variantName && product.variants?.length) {
+      const variant = product.variants.find((v) => v.name === variantName);
+      allowedFiles = variant?.stlFiles ?? [];
+    } else {
+      allowedFiles = product.stlFiles ?? [];
+    }
   }
 
   if (!allowedFiles.length) {

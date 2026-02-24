@@ -48,6 +48,12 @@ export default async function SuccessPage({ searchParams }: Props) {
     .map((slug) => getProductBySlug(slug))
     .filter(Boolean);
 
+  let filesMap: Record<string, string[]> = {};
+  try {
+    const raw = session.metadata?.files;
+    if (raw) filesMap = JSON.parse(raw) as Record<string, string[]>;
+  } catch { /* ignore */ }
+
   let variantsMap: Record<string, string> = {};
   try {
     const raw = session.metadata?.variants;
@@ -82,7 +88,11 @@ export default async function SuccessPage({ searchParams }: Props) {
             if (!product) return null;
             const variantName = variantsMap[product.slug];
             const variant = product.variants?.find((v) => v.name === variantName);
-            const files = variant?.stlFiles ?? product.stlFiles ?? [];
+            const files =
+              filesMap[product.slug] ??
+              variant?.stlFiles ??
+              product.stlFiles ??
+              [];
             return (
               <div
                 key={product.slug}

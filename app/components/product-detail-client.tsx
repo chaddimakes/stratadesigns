@@ -14,14 +14,42 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<string | undefined>(undefined);
+  const [toggles, setToggles] = useState<Record<string, boolean>>(
+    Object.fromEntries(
+      (product.toggleOptions ?? []).map((opt) => [opt.key, opt.default]),
+    ),
+  );
 
   const inCart = items.some((i) => i.slug === product.slug);
 
+  // Resolve active toggle combination
+  const currentCombination = product.toggleCombinations?.find((combo) =>
+    Object.entries(combo.when).every(([key, val]) => toggles[key] === val),
+  );
+
+  // Resolve variant (non-toggle products)
   const selectedVariantData = product.variants?.find(
     (v) => v.name === selectedVariant,
   );
-  const displayImage = selectedVariantData?.previewImage ?? product.image;
-  const hasVariantImage = !!selectedVariantData?.previewImage;
+
+  const displayImage =
+    currentCombination?.previewImage ??
+    selectedVariantData?.previewImage ??
+    product.image;
+  const hasOverrideImage = !!(
+    currentCombination?.previewImage ?? selectedVariantData?.previewImage
+  );
+
+  // For toggle products, compute a human-readable label and the resolved file list
+  const toggleVariantName = product.toggleOptions
+    ? product.toggleOptions
+        .filter((opt) => toggles[opt.key])
+        .map((opt) => opt.label)
+        .join(" + ") || undefined
+    : undefined;
+
+  const effectiveVariantName = toggleVariantName ?? selectedVariant;
+  const selectedFiles = currentCombination?.stlFiles;
 
   function handleAddToCart() {
     addItem({
@@ -29,7 +57,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       name: product.name,
       price: product.price,
       image: product.image,
-      variantName: selectedVariant,
+      variantName: effectiveVariantName,
+      selectedFiles,
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
@@ -41,7 +70,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       name: product.name,
       price: product.price,
       image: product.image,
-      variantName: selectedVariant,
+      variantName: effectiveVariantName,
+      selectedFiles,
     });
     router.push("/checkout");
   }
@@ -50,7 +80,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     <>
     <div className="grid gap-12 lg:grid-cols-2">
       {/* Image */}
-      {hasVariantImage ? (
+      {hasOverrideImage ? (
         <div
           className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-[#141414]"
           style={{ cursor: "zoom-in" }}
@@ -58,7 +88,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         >
           <Image
             src={displayImage}
-            alt={`${product.name} — ${selectedVariant}`}
+            alt={`${product.name}${effectiveVariantName ? ` — ${effectiveVariantName}` : ""}`}
             fill
             className="object-cover"
             priority
@@ -140,8 +170,48 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           </div>
         </div>
 
-        {/* Variant selector + cart buttons */}
+        {/* Toggle options + variant selector + cart buttons */}
         <div className="flex flex-col gap-3">
+          {/* Toggle options (independent boolean selectors) */}
+          {product.toggleOptions && product.toggleOptions.length > 0 && (
+            <div className="mb-1 flex flex-col gap-4">
+              {product.toggleOptions.map((opt) => (
+                <div key={opt.key} className="flex flex-col gap-2">
+                  <p className="text-sm font-semibold uppercase tracking-wider text-foreground">
+                    {opt.label}
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() =>
+                        setToggles((prev) => ({ ...prev, [opt.key]: false }))
+                      }
+                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
+                        !toggles[opt.key]
+                          ? "border-accent bg-accent text-white"
+                          : "border-border text-muted hover:border-accent hover:text-accent"
+                      }`}
+                    >
+                      Without {opt.label}
+                    </button>
+                    <button
+                      onClick={() =>
+                        setToggles((prev) => ({ ...prev, [opt.key]: true }))
+                      }
+                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
+                        toggles[opt.key]
+                          ? "border-accent bg-accent text-white"
+                          : "border-border text-muted hover:border-accent hover:text-accent"
+                      }`}
+                    >
+                      With {opt.label}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Named variant selector (non-toggle products) */}
           {product.variants && product.variants.length > 0 && (
             <div className="mb-1 flex flex-col gap-2">
               <p className="text-sm font-semibold uppercase tracking-wider text-foreground">
@@ -164,6 +234,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               </div>
             </div>
           )}
+
           <button
             onClick={handleBuyNow}
             className="w-full rounded-lg bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"

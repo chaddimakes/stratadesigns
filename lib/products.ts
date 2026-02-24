@@ -4,6 +4,18 @@ export interface ProductVariant {
   previewImage?: string;
 }
 
+export interface ProductToggleOption {
+  key: string;
+  label: string;
+  default: boolean;
+}
+
+export interface ProductToggleCombination {
+  when: Record<string, boolean>;
+  stlFiles: string[];
+  previewImage?: string;
+}
+
 export interface Product {
   slug: string;
   name: string;
@@ -17,6 +29,8 @@ export interface Product {
   purchaseUrl?: string;
   stlFiles?: string[]; // filenames in private/stl/ — served securely via /api/download
   variants?: ProductVariant[]; // if set, stlFiles are per-variant instead of top-level
+  toggleOptions?: ProductToggleOption[]; // independent boolean toggles
+  toggleCombinations?: ProductToggleCombination[]; // file/image matrix for toggle combinations
   supports?: string;
   material?: string;
 }
@@ -165,9 +179,13 @@ export const products: Product[] = [
     ],
     material: "PETG, ABS, or ASA",
     supports: "None",
-    variants: [
+    toggleOptions: [
+      { key: "dimmer", label: "Dimmer", default: false },
+      { key: "gasket", label: "Gasket", default: false },
+    ],
+    toggleCombinations: [
       {
-        name: "Without Dimmer",
+        when: { dimmer: false, gasket: false },
         previewImage: "/products/Tacoma_DC_Power_Panel_no_dimmer_CAD.jpg",
         stlFiles: [
           "Tacoma_DC_Power_Panel_No_Dimmer.stl",
@@ -176,10 +194,28 @@ export const products: Product[] = [
         ],
       },
       {
-        name: "With Dimmer",
+        when: { dimmer: true, gasket: false },
         previewImage: "/products/Tacoma_DC_Power_Panel_dimmer_CAD.jpg",
         stlFiles: [
           "Tacoma_DC_Power_Panel_Dimmer_version.stl",
+          "Tacoma_DC_Power_Panel_Knob.stl",
+          "Tacoma_DC_Power_Panel_Latch.stl",
+        ],
+      },
+      {
+        when: { dimmer: false, gasket: true },
+        previewImage: "/products/Tacoma_DC_Power_Panel_no_dimmer_gasket_CAD.jpg",
+        stlFiles: [
+          "Tacoma_DC_Power_Panel_No_Dimmer_Gasket.3mf",
+          "Tacoma_DC_Power_Panel_Knob.stl",
+          "Tacoma_DC_Power_Panel_Latch.stl",
+        ],
+      },
+      {
+        when: { dimmer: true, gasket: true },
+        previewImage: "/products/Tacoma_DC_Power_Panel_dimmer_gasket_CAD.jpg",
+        stlFiles: [
+          "Tacoma_DC_Power_Panel_Dimmer_Gasket.3mf",
           "Tacoma_DC_Power_Panel_Knob.stl",
           "Tacoma_DC_Power_Panel_Latch.stl",
         ],
