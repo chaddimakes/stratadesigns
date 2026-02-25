@@ -88,16 +88,11 @@ export default function ImageGallery({
           />
         </div>
         {sorted.length > 1 && (
-          <div className="flex items-center gap-1">
-            {needsArrows && (
+          <div className="flex items-stretch gap-1">
+            {canScrollLeft && (
               <button
                 onClick={() => setThumbOffset((o) => Math.max(0, o - 1))}
-                disabled={!canScrollLeft}
-                className={`flex-none flex items-center justify-center w-7 h-7 rounded border border-border text-sm transition-colors ${
-                  canScrollLeft
-                    ? "text-foreground hover:bg-accent/20"
-                    : "text-muted-foreground/30 cursor-default"
-                }`}
+                className="flex-none flex items-center justify-center w-7 rounded border border-border text-sm transition-colors text-foreground hover:bg-accent/20"
                 aria-label="Previous thumbnails"
               >
                 ‹
@@ -121,15 +116,10 @@ export default function ImageGallery({
                 );
               })}
             </div>
-            {needsArrows && (
+            {canScrollRight && (
               <button
                 onClick={() => setThumbOffset((o) => Math.min(maxOffset, o + 1))}
-                disabled={!canScrollRight}
-                className={`flex-none flex items-center justify-center w-7 h-7 rounded border border-border text-sm transition-colors ${
-                  canScrollRight
-                    ? "text-foreground hover:bg-accent/20"
-                    : "text-muted-foreground/30 cursor-default"
-                }`}
+                className="flex-none flex items-center justify-center w-7 rounded border border-border text-sm transition-colors text-foreground hover:bg-accent/20"
                 aria-label="Next thumbnails"
               >
                 ›
