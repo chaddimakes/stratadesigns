@@ -128,6 +128,7 @@ export const products: Product[] = [
     image: "/products/Tacoma_Glove_Box_Shelf_01.jpg",
     images: [
       "/products/Tacoma_Glove_Box_Shelf_01.jpg",
+      "/products/Tacoma_Glove_Box_Shelf_02.jpg",
       "/products/Tacoma_Glove_Box_Shelf_CAD.jpg",
     ],
     category: "Interior",
@@ -151,6 +152,7 @@ export const products: Product[] = [
     image: "/products/Tacoma_Center_Console_Organizer_01.jpg",
     images: [
       "/products/Tacoma_Center_Console_Organizer_01.jpg",
+      "/products/Tacoma_Center_Console_Organizer_02.jpg",
       "/products/Tacoma_Center_Console_Organizer_CAD.jpg",
     ],
     category: "Interior",
@@ -239,6 +241,12 @@ export const products: Product[] = [
     longDescription:
       "Print-ready STL bracket designed to mount the Pelican 3310 ELS Emergency Lighting Station to your truck bed rail for quick, easy access. The Pelican 3310 ELS is a glow-in-the-dark photoluminescent flashlight that comes in a wall-mountable case — this bracket adapts that mount for truck bed rail use. Supports required. Print in PETG, ABS, or ASA for UV and heat resistance.",
     image: "/products/Pelican_3310_ELS_Bracket_CAD.jpg",
+    images: [
+      "/products/Pelican_3310_ELS_Bracket_01.jpg",
+      "/products/Pelican_3310_ELS_Bracket_02.jpg",
+      "/products/Pelican_3310_ELS_Bracket_03.jpg",
+      "/products/Pelican_3310_ELS_Bracket_CAD.jpg",
+    ],
     category: "Storage & Organization",
     features: [
       "Mounts Pelican 3310 ELS to truck bed rail",
