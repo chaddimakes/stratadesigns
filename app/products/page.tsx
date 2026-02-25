@@ -2,8 +2,18 @@ import { products } from "@/lib/products";
 import ProductCard from "../components/product-card";
 
 export const metadata = {
-  title: "Products — Proper Polymer",
-  description: "Browse all premium STL files for Toyota Tacoma accessories.",
+  title: "Shop All Products",
+  description:
+    "Browse the full catalog of premium 3D printable STL files for Toyota Tacoma accessories. Precision engineered, FDM optimized, and trail tested.",
+  alternates: {
+    canonical: "/products",
+  },
+  openGraph: {
+    title: "Shop All Products",
+    description:
+      "Browse the full catalog of premium 3D printable STL files for Toyota Tacoma accessories.",
+    url: "/products",
+  },
 };
 
 export default function ProductsPage() {

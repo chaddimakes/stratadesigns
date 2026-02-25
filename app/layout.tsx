@@ -16,19 +16,42 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Proper Polymer — Precision Engineered. Trail Tested.",
+  metadataBase: new URL("https://www.properpolymer.com"),
+  title: {
+    default: "Proper Polymer — Precision Engineered. Trail Tested.",
+    template: "%s | Proper Polymer",
+  },
   description:
-    "Premium STL files for Toyota Tacoma off-road accessories. 3D printable scale models, skid plates, roof racks, and more.",
+    "Premium 3D printable STL files for Toyota Tacoma accessories. Precision engineered, FDM optimized, and trail tested on a real Tacoma TRD Off-Road.",
+  keywords: [
+    "3D print",
+    "STL files",
+    "Toyota Tacoma",
+    "Tacoma accessories",
+    "3D printed truck parts",
+    "FDM",
+    "overlanding",
+    "off-road accessories",
+  ],
+  alternates: {
+    canonical: "https://www.properpolymer.com",
+  },
   openGraph: {
-    title: "Proper Polymer",
-    description: "Premium 3D printable STL files for Toyota Tacoma accessories.",
-    url: "https://stratadesigns.vercel.app",
+    siteName: "Proper Polymer",
+    title: "Proper Polymer — Precision Engineered. Trail Tested.",
+    description:
+      "Premium 3D printable STL files for Toyota Tacoma accessories. Precision engineered, FDM optimized, and trail tested.",
+    url: "https://www.properpolymer.com",
+    locale: "en_US",
     type: "website",
-    images: [{ url: "https://stratadesigns.vercel.app/og-image.jpg" }],
+    images: [{ url: "/hero.jpg" }],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["https://stratadesigns.vercel.app/og-image.jpg"],
+    title: "Proper Polymer — Precision Engineered. Trail Tested.",
+    description:
+      "Premium 3D printable STL files for Toyota Tacoma accessories.",
+    images: ["/hero.jpg"],
   },
 };
 

@@ -1,6 +1,15 @@
 export const metadata = {
-  title: "Terms of Service — Proper Polymer",
-  description: "Terms of Service for Proper Polymer digital products.",
+  title: "Terms of Service",
+  description:
+    "Terms of Service for Proper Polymer. All sales are final for digital STL files. Personal use only license, print compatibility disclaimer, and governing law.",
+  alternates: {
+    canonical: "/terms",
+  },
+  openGraph: {
+    title: "Terms of Service",
+    description: "Terms of Service for Proper Polymer digital products.",
+    url: "/terms",
+  },
 };
 
 export default function TermsPage() {

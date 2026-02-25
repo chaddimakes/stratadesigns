@@ -1,7 +1,16 @@
 export const metadata = {
-  title: "About — Proper Polymer",
+  title: "About",
   description:
     "Proper Polymer is a one-person operation building precision STL files for Toyota Tacoma owners and off-road enthusiasts, based in the Pacific Northwest.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About Proper Polymer",
+    description:
+      "A one-person operation building precision STL files for Toyota Tacoma owners, based in the Pacific Northwest.",
+    url: "/about",
+  },
 };
 
 export default function AboutPage() {

@@ -1,6 +1,15 @@
 export const metadata = {
-  title: "Privacy Policy — Proper Polymer",
-  description: "Privacy Policy for Proper Polymer digital products.",
+  title: "Privacy Policy",
+  description:
+    "Privacy Policy for Proper Polymer. We collect only what's needed to process your order. Your data is never sold. Payments handled securely via Stripe.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  openGraph: {
+    title: "Privacy Policy",
+    description: "Privacy Policy for Proper Polymer digital products.",
+    url: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {
