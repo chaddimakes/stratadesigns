@@ -44,14 +44,14 @@ export const metadata: Metadata = {
     url: "https://www.properpolymer.com",
     locale: "en_US",
     type: "website",
-    images: [{ url: "/hero.jpg" }],
+    images: [{ url: "https://www.properpolymer.com/og-image.jpg" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Proper Polymer — Precision Engineered. Trail Tested.",
     description:
       "Premium 3D printable STL files for Toyota Tacoma accessories.",
-    images: ["/hero.jpg"],
+    images: ["https://www.properpolymer.com/og-image.jpg"],
   },
   verification: {
     google: "1mov5pimO_l9BkNVhrq3Ry3ZNR7x8beOYGWExCdvLNI",
