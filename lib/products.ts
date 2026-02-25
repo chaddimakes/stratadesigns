@@ -169,6 +169,8 @@ export const products: Product[] = [
       "/products/Tacoma_DC_Power_Panel_01.jpg",
       "/products/Tacoma_DC_Power_Panel_dimmer_CAD.jpg",
       "/products/Tacoma_DC_Power_Panel_no_dimmer_CAD.jpg",
+      "/products/Tacoma_DC_Power_Panel_dimmer_gasket_CAD.jpg",
+      "/products/Tacoma_DC_Power_Panel_no_dimmer_gasket_CAD.jpg",
     ],
     category: "Electrical",
     features: [
