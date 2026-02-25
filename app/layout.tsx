@@ -53,6 +53,9 @@ export const metadata: Metadata = {
       "Premium 3D printable STL files for Toyota Tacoma accessories.",
     images: ["/hero.jpg"],
   },
+  verification: {
+    google: "1mov5pimO_l9BkNVhrq3Ry3ZNR7x8beOYGWExCdvLNI",
+  },
 };
 
 export default function RootLayout({
