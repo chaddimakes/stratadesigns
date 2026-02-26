@@ -20,12 +20,9 @@ export default function ProductCard({ product }: { product: Product }) {
         <p className="mb-1 text-xs font-medium uppercase tracking-wider text-accent">
           {product.category}
         </p>
-        <h3 className="mb-2 text-lg font-semibold text-foreground">
+        <h3 className="mb-3 text-lg font-semibold text-foreground">
           {product.name}
         </h3>
-        <p className="mb-4 text-sm leading-relaxed text-muted">
-          {product.description}
-        </p>
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold text-foreground">
             ${product.price.toFixed(2)}
