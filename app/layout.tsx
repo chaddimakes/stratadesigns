@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | Proper Polymer",
   },
   description:
-    "Premium 3D printable STL files for Toyota Tacoma accessories. Precision engineered, FDM optimized, and trail tested on a real Tacoma TRD Off-Road.",
+    "Proper Polymer — premium 3D printable STL files for Toyota Tacoma accessories. Precision engineered and trail tested for FDM printing.",
   keywords: [
     "3D print",
     "STL files",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "Proper Polymer",
     title: "Proper Polymer — Precision Engineered. Trail Tested.",
     description:
-      "Premium 3D printable STL files for Toyota Tacoma accessories. Precision engineered, FDM optimized, and trail tested.",
+      "Proper Polymer — premium 3D printable STL files for Toyota Tacoma accessories. Precision engineered and trail tested for FDM printing.",
     url: "https://www.properpolymer.com",
     locale: "en_US",
     type: "website",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Proper Polymer — Precision Engineered. Trail Tested.",
     description:
-      "Premium 3D printable STL files for Toyota Tacoma accessories.",
+      "Proper Polymer — premium 3D printable STL files for Toyota Tacoma accessories. Precision engineered and trail tested for FDM printing.",
     images: ["https://www.properpolymer.com/og-image.jpg"],
   },
   verification: {
