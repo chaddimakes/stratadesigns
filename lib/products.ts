@@ -57,7 +57,6 @@ export const products: Product[] = [
     features: [
       "Fits 3rd Gen Tacoma OEM honeycomb grille",
       "Clean, no-drill light pod mounting",
-      "Left and right brackets included",
     ],
     material: "PETG, ABS, or ASA",
     stlFiles: [
@@ -113,7 +112,7 @@ export const products: Product[] = [
     category: "Audio",
     features: [
       "Fits all 3rd Gen Toyota Tacomas (2016-2023)",
-      "Designed for JBL Stadium GTO20M 2-inch midrange speakers",
+      "Designed for 2-inch midrange speakers (tested on JBL Stadium GTO20M)",
       "No cutting or modifications required",
     ],
     material: "PETG or ABS",
@@ -139,7 +138,6 @@ export const products: Product[] = [
     features: [
       "Single-piece heavy duty shelf — no assembly required",
       "Fits Toyota Tacoma glove box",
-      "Max print width 390mm — rotate on Bambu Lab H2 series printers",
     ],
     material: "PETG or ABS",
     stlFiles: ["Tacoma_Glove_Box_Shelf.stl"],
@@ -188,7 +186,7 @@ export const products: Product[] = [
     ],
     category: "Electrical",
     features: [
-      "Replaces factory interior door panel on 2020 Toyota Tacoma",
+      "Replaces factory bed door panel on 2020 Toyota Tacoma",
       "Mounts Blue Sea Systems 4365 Accessory Panel and Mini OLED Meter",
       "Optional PWM dimmer switch variant for bed light control",
       "Clean, factory-look 12V power for fridge, USB chargers, and accessories",
@@ -262,7 +260,7 @@ export const products: Product[] = [
     ],
     material: "PETG, ABS, or ASA",
     stlFiles: ["Pelican_3310_ELS_Bracket.stl"],
-    supports: "Required",
+    supports: "Yes",
     requiredHardware: [
       "2x M5 x 10mm Button Head Bolts",
       "2x M5 Washers",

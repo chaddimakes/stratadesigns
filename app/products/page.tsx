@@ -7,6 +7,13 @@ const vehicleLabels: Record<string, string> = {
   universal: "Universal",
 };
 
+const vehicleDescriptions: Record<string, string> = {
+  tacoma:
+    "Precision-engineered STL files for Toyota Tacoma. Every file is print-tested and optimized for FDM.",
+  universal:
+    "Precision-engineered STL files for common offroad accessories. Every file is print-tested and optimized for FDM.",
+};
+
 export const metadata = {
   title: "Shop All Products",
   description:
@@ -45,8 +52,9 @@ export default async function ProductsPage({
           {heading}
         </h1>
         <p className="mt-3 max-w-xl text-muted">
-          Precision-engineered STL files for Toyota Tacoma scale builds. Every
-          file is print-tested and optimized for FDM.
+          {isFiltered && vehicleDescriptions[vehicle]
+            ? vehicleDescriptions[vehicle]
+            : "Precision-engineered STL files for your build. Every file is print-tested and optimized for FDM."}
         </p>
         {isFiltered && (
           <Link
