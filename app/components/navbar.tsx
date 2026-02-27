@@ -197,52 +197,11 @@ export default function Navbar() {
         <div className="flex md:hidden items-center gap-4">
           <CartIcon />
           <button
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open menu"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
             className="text-muted hover:text-accent transition-colors"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile overlay */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0d0d0d] md:hidden">
-          <div className="flex items-center justify-between px-3 py-3 sm:px-6 sm:py-4 border-b border-border">
-            <Link
-              href="/"
-              className="flex shrink-0 items-center gap-2 sm:gap-3"
-              onClick={closeMobile}
-            >
-              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-accent font-mono text-xs font-bold text-white sm:h-9 sm:w-9 sm:text-sm">
-                PP
-              </div>
-              <div className="leading-tight">
-                <span className="block text-sm font-bold tracking-tight text-foreground sm:text-lg">
-                  Proper Polymer
-                </span>
-              </div>
-            </Link>
-            <button
-              onClick={closeMobile}
-              aria-label="Close menu"
-              className="text-muted hover:text-accent transition-colors"
-            >
+            {mobileOpen ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -257,51 +216,80 @@ export default function Navbar() {
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
-            </button>
-          </div>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            )}
+          </button>
+        </div>
+      </div>
 
-          <div className="px-6 py-8 space-y-8">
-            {/* Shop section */}
-            <div>
-              <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-accent">
-                Shop
-              </h3>
-              <ul className="space-y-3">
-                {shopLinks.map((link) => (
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-40 md:hidden"
+            onClick={closeMobile}
+          />
+          {/* Slide-out panel */}
+          <div className="absolute right-0 top-full z-50 w-72 border-l border-b border-border rounded-bl-lg bg-[#0d0d0d] shadow-xl md:hidden">
+            <div className="px-6 py-6 space-y-6">
+              {/* Shop section */}
+              <div>
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">
+                  Shop
+                </h3>
+                <ul className="space-y-3">
+                  {shopLinks.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-foreground transition-colors hover:text-accent"
+                        onClick={closeMobile}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
+                    <span className="text-sm text-muted/50 cursor-default">
+                      Toyota Sienna (Coming Soon)
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Standalone links */}
+              <ul className="space-y-3 border-t border-border pt-4">
+                {companyLinks.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-base text-foreground transition-colors hover:text-accent"
+                      className="text-sm text-foreground transition-colors hover:text-accent"
                       onClick={closeMobile}
                     >
                       {link.label}
                     </Link>
                   </li>
                 ))}
-                <li>
-                  <span className="text-base text-muted/50 cursor-default">
-                    Toyota Sienna (Coming Soon)
-                  </span>
-                </li>
               </ul>
             </div>
-
-            {/* Standalone links */}
-            <ul className="space-y-3 border-t border-border pt-6">
-              {companyLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-base text-foreground transition-colors hover:text-accent"
-                    onClick={closeMobile}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
-        </div>
+        </>
       )}
     </nav>
   );
