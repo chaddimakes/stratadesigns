@@ -39,136 +39,6 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    slug: "tacoma-raptor-light-brackets",
-    name: "Tacoma Raptor Light Brackets",
-    price: 20,
-    description:
-      "3D-printed light pod brackets for the 3rd Gen Toyota Tacoma OEM honeycomb grille. Mounts lights cleanly in the factory grille openings.",
-    longDescription:
-      "These brackets are designed specifically for the 3rd Gen Toyota Tacoma (2016–2023) with the OEM honeycomb grille. They mount light pods directly into the factory grille openings for a clean, no-drill install. Sized and shaped to fit the honeycomb cell geometry precisely, giving you a tight, rattle-free fit. Print in PETG or ASA for heat and UV resistance. Includes both left and right brackets.",
-    image: "/products/RAPTOR LIGHT BRACKET--01.jpg",
-    images: [
-      "/products/RAPTOR LIGHT BRACKET--01.jpg",
-      "/products/RAPTOR LIGHT BRACKET--02.jpg",
-      "/products/RAPTOR LIGHT BRACKET--03.jpg",
-      "/products/RAPTOR LIGHT BRACKET--04-CAD.jpg",
-    ],
-    category: "Lighting",
-    features: [
-      "Fits 3rd Gen Tacoma OEM honeycomb grille",
-      "Clean, no-drill light pod mounting",
-    ],
-    material: "PETG, ABS, or ASA",
-    stlFiles: [
-      "Tacoma_Raptor_Light_Brackets.stl",
-      "Raptor_Light_Clip.stl",
-    ],
-    vehicle: "tacoma",
-  },
-  {
-    slug: "roof-rack-camp-light-mount",
-    name: "Roof Rack Camp Light Mount",
-    price: 15,
-    description:
-      "Print-ready STL mounts designed for the Harbor Freight ROADSHOCK 12V Utility/Rock White LED Camp Light. A wallet-friendly alternative to premium options like the Baja Designs Rock Light — get the same functionality without the $66/light price tag. Tested on a Prinsu roof rack but designed to be compatible with most universal roof rack setups.",
-    longDescription:
-      "Print-ready STL mounts designed for the Harbor Freight ROADSHOCK 12V Utility/Rock White LED Camp Light. A wallet-friendly alternative to premium options like the Baja Designs Rock Light — get the same functionality without the $66/light price tag. Tested on a Prinsu roof rack but designed to be compatible with most universal roof rack setups.",
-    image: "/products/Roof_Rack_Camp_Light_Mount_02.jpg",
-    images: [
-      "/products/Roof_Rack_Camp_Light_Mount_02.jpg",
-      "/products/Roof_Rack_Camp_Light_Mount_03.jpg",
-      "/products/Roof_Rack_Camp_Light_Mount_04.jpg",
-      "/products/Roof_Rack_Camp_Light_Mount_CAD.jpg",
-    ],
-    category: "Lighting",
-    features: [
-      "Designed for Harbor Freight ROADSHOCK 12V LED Camp Light",
-      "Compatible with Prinsu and most universal roof rack setups",
-      "Budget-friendly alternative to Baja Designs Rock Light",
-    ],
-    material: "PETG or ASA",
-    stlFiles: ["Roof_Rack_Camp_Light_Mount.stl"],
-    supports: "Minimal / None",
-    requiredHardware: [
-      "4x M6 x 16mm Button Head Bolts",
-      "2x M6 Square Nuts",
-      "2x M6 Washers",
-    ],
-    vehicle: "universal",
-  },
-  {
-    slug: "tacoma-midrange-speaker-mount",
-    name: "Tacoma Midrange Speaker Mount",
-    price: 10,
-    description:
-      "Print-ready STL mount designed to replace the factory tweeter bracket in all 3rd Gen Toyota Tacomas (2016-2023). Fits the JBL Stadium GTO20M Stadium Series 2-inch midrange speakers for a clean, factory-look install with no cutting or modifications required.",
-    longDescription:
-      "Print-ready STL mount designed to replace the factory tweeter bracket in all 3rd Gen Toyota Tacomas (2016-2023). Fits the JBL Stadium GTO20M Stadium Series 2-inch midrange speakers for a clean, factory-look install with no cutting or modifications required.",
-    image: "/products/Tacoma_Tweeter_Adapter_01.jpg",
-    images: [
-      "/products/Tacoma_Tweeter_Adapter_01.jpg",
-      "/products/Tacoma_Tweeter_Adapter_02.jpg",
-    ],
-    category: "Audio",
-    features: [
-      "Fits all 3rd Gen Toyota Tacomas (2016-2023)",
-      "Designed for 2-inch midrange speakers (tested on JBL Stadium GTO20M)",
-      "No cutting or modifications required",
-    ],
-    material: "PETG or ABS",
-    stlFiles: ["Tacoma_tweeter_adapter.stl"],
-    supports: "None",
-    vehicle: "tacoma",
-  },
-  {
-    slug: "tacoma-glove-box-organizer",
-    name: "Tacoma Glove Box Organizer",
-    price: 12,
-    description:
-      "Print-ready STL shelf designed to keep your Tacoma glove box organized. Unlike the cheap, flimsy multi-piece versions on Amazon, this is a single-piece heavy duty shelf that fits perfectly with no assembly required. Note: this is a very large print with a max width of 390mm — if printing on a Bambu Lab H2 series printer, rotate the part on your print bed to fit.",
-    longDescription:
-      "Print-ready STL shelf designed to keep your Tacoma glove box organized. Unlike the cheap, flimsy multi-piece versions on Amazon, this is a single-piece heavy duty shelf that fits perfectly with no assembly required. Note: this is a very large print with a max width of 390mm — if printing on a Bambu Lab H2 series printer, rotate the part on your print bed to fit.",
-    image: "/products/Tacoma_Glove_Box_Shelf_01.jpg",
-    images: [
-      "/products/Tacoma_Glove_Box_Shelf_01.jpg",
-      "/products/Tacoma_Glove_Box_Shelf_02.jpg",
-      "/products/Tacoma_Glove_Box_Shelf_CAD.jpg",
-    ],
-    category: "Interior",
-    features: [
-      "Single-piece heavy duty shelf — no assembly required",
-      "Fits Toyota Tacoma glove box",
-    ],
-    material: "PETG or ABS",
-    stlFiles: ["Tacoma_Glove_Box_Shelf.stl"],
-    supports: "None",
-    vehicle: "tacoma",
-  },
-  {
-    slug: "tacoma-center-console-organizer",
-    name: "Tacoma Center Console Organizer",
-    price: 12,
-    description:
-      "Print-ready STL organizer designed to keep your Tacoma center console tidy. Unlike the flimsy multi-piece versions available on Amazon, this is a single-piece heavy duty organizer that fits perfectly with no assembly required.",
-    longDescription:
-      "Print-ready STL organizer designed to keep your Tacoma center console tidy. Unlike the flimsy multi-piece versions available on Amazon, this is a single-piece heavy duty organizer that fits perfectly with no assembly required.",
-    image: "/products/Tacoma_Center_Console_Organizer_01.jpg",
-    images: [
-      "/products/Tacoma_Center_Console_Organizer_01.jpg",
-      "/products/Tacoma_Center_Console_Organizer_02.jpg",
-      "/products/Tacoma_Center_Console_Organizer_CAD.jpg",
-    ],
-    category: "Interior",
-    features: [
-      "Single-piece heavy duty organizer — no assembly required",
-      "Fits Toyota Tacoma center console",
-    ],
-    material: "PETG or ABS",
-    stlFiles: ["Tacoma_Center_Console_Organizer.stl"],
-    supports: "None",
-    vehicle: "tacoma",
-  },
-  {
     slug: "tacoma-dc-power-panel",
     name: "Tacoma DC Power Panel",
     price: 30,
@@ -244,6 +114,112 @@ export const products: Product[] = [
     vehicle: "tacoma",
   },
   {
+    slug: "tacoma-raptor-light-brackets",
+    name: "Tacoma Raptor Light Brackets",
+    price: 20,
+    description:
+      "3D-printed light pod brackets for the 3rd Gen Toyota Tacoma OEM honeycomb grille. Mounts lights cleanly in the factory grille openings.",
+    longDescription:
+      "These brackets are designed specifically for the 3rd Gen Toyota Tacoma (2016–2023) with the OEM honeycomb grille. They mount light pods directly into the factory grille openings for a clean, no-drill install. Sized and shaped to fit the honeycomb cell geometry precisely, giving you a tight, rattle-free fit. Print in PETG or ASA for heat and UV resistance. Includes both left and right brackets.",
+    image: "/products/RAPTOR LIGHT BRACKET--01.jpg",
+    images: [
+      "/products/RAPTOR LIGHT BRACKET--01.jpg",
+      "/products/RAPTOR LIGHT BRACKET--02.jpg",
+      "/products/RAPTOR LIGHT BRACKET--03.jpg",
+      "/products/RAPTOR LIGHT BRACKET--04-CAD.jpg",
+    ],
+    category: "Lighting",
+    features: [
+      "Fits 3rd Gen Tacoma OEM honeycomb grille",
+      "Clean, no-drill light pod mounting",
+    ],
+    material: "PETG, ABS, or ASA",
+    stlFiles: [
+      "Tacoma_Raptor_Light_Brackets.stl",
+      "Raptor_Light_Clip.stl",
+    ],
+    vehicle: "tacoma",
+  },
+  {
+    slug: "roof-rack-camp-light-mount",
+    name: "Roof Rack Camp Light Mount",
+    price: 15,
+    description:
+      "Print-ready STL mounts designed for the Harbor Freight ROADSHOCK 12V Utility/Rock White LED Camp Light. A wallet-friendly alternative to premium options like the Baja Designs Rock Light — get the same functionality without the $66/light price tag. Tested on a Prinsu roof rack but designed to be compatible with most universal roof rack setups.",
+    longDescription:
+      "Print-ready STL mounts designed for the Harbor Freight ROADSHOCK 12V Utility/Rock White LED Camp Light. A wallet-friendly alternative to premium options like the Baja Designs Rock Light — get the same functionality without the $66/light price tag. Tested on a Prinsu roof rack but designed to be compatible with most universal roof rack setups.",
+    image: "/products/Roof_Rack_Camp_Light_Mount_02.jpg",
+    images: [
+      "/products/Roof_Rack_Camp_Light_Mount_02.jpg",
+      "/products/Roof_Rack_Camp_Light_Mount_03.jpg",
+      "/products/Roof_Rack_Camp_Light_Mount_04.jpg",
+      "/products/Roof_Rack_Camp_Light_Mount_CAD.jpg",
+    ],
+    category: "Lighting",
+    features: [
+      "Designed for Harbor Freight ROADSHOCK 12V LED Camp Light",
+      "Compatible with Prinsu and most universal roof rack setups",
+      "Budget-friendly alternative to Baja Designs Rock Light",
+    ],
+    material: "PETG or ASA",
+    stlFiles: ["Roof_Rack_Camp_Light_Mount.stl"],
+    supports: "Minimal / None",
+    requiredHardware: [
+      "4x M6 x 16mm Button Head Bolts",
+      "2x M6 Square Nuts",
+      "2x M6 Washers",
+    ],
+    vehicle: "universal",
+  },
+  {
+    slug: "tacoma-glove-box-organizer",
+    name: "Tacoma Glove Box Organizer",
+    price: 12,
+    description:
+      "Print-ready STL shelf designed to keep your Tacoma glove box organized. Unlike the cheap, flimsy multi-piece versions on Amazon, this is a single-piece heavy duty shelf that fits perfectly with no assembly required. Note: this is a very large print with a max width of 390mm — if printing on a Bambu Lab H2 series printer, rotate the part on your print bed to fit.",
+    longDescription:
+      "Print-ready STL shelf designed to keep your Tacoma glove box organized. Unlike the cheap, flimsy multi-piece versions on Amazon, this is a single-piece heavy duty shelf that fits perfectly with no assembly required. Note: this is a very large print with a max width of 390mm — if printing on a Bambu Lab H2 series printer, rotate the part on your print bed to fit.",
+    image: "/products/Tacoma_Glove_Box_Shelf_01.jpg",
+    images: [
+      "/products/Tacoma_Glove_Box_Shelf_01.jpg",
+      "/products/Tacoma_Glove_Box_Shelf_02.jpg",
+      "/products/Tacoma_Glove_Box_Shelf_CAD.jpg",
+    ],
+    category: "Interior",
+    features: [
+      "Single-piece heavy duty shelf — no assembly required",
+      "Fits Toyota Tacoma glove box",
+    ],
+    material: "PETG or ABS",
+    stlFiles: ["Tacoma_Glove_Box_Shelf.stl"],
+    supports: "None",
+    vehicle: "tacoma",
+  },
+  {
+    slug: "tacoma-center-console-organizer",
+    name: "Tacoma Center Console Organizer",
+    price: 12,
+    description:
+      "Print-ready STL organizer designed to keep your Tacoma center console tidy. Unlike the flimsy multi-piece versions available on Amazon, this is a single-piece heavy duty organizer that fits perfectly with no assembly required.",
+    longDescription:
+      "Print-ready STL organizer designed to keep your Tacoma center console tidy. Unlike the flimsy multi-piece versions available on Amazon, this is a single-piece heavy duty organizer that fits perfectly with no assembly required.",
+    image: "/products/Tacoma_Center_Console_Organizer_01.jpg",
+    images: [
+      "/products/Tacoma_Center_Console_Organizer_01.jpg",
+      "/products/Tacoma_Center_Console_Organizer_02.jpg",
+      "/products/Tacoma_Center_Console_Organizer_CAD.jpg",
+    ],
+    category: "Interior",
+    features: [
+      "Single-piece heavy duty organizer — no assembly required",
+      "Fits Toyota Tacoma center console",
+    ],
+    material: "PETG or ABS",
+    stlFiles: ["Tacoma_Center_Console_Organizer.stl"],
+    supports: "None",
+    vehicle: "tacoma",
+  },
+  {
     slug: "pelican-3310-els-bracket",
     name: "Pelican 3310 ELS Bed Rail Bracket",
     price: 15,
@@ -251,7 +227,7 @@ export const products: Product[] = [
       "Print-ready STL bracket designed to mount the Pelican 3310 ELS Emergency Lighting Station to your truck bed rail for quick, easy access.",
     longDescription:
       "Print-ready STL bracket designed to mount the Pelican 3310 ELS Emergency Lighting Station to your truck bed rail for quick, easy access. The Pelican 3310 ELS is a glow-in-the-dark photoluminescent flashlight that comes in a wall-mountable case — this bracket adapts that mount for truck bed rail use. Supports required. Print in PETG, ABS, or ASA for UV and heat resistance.",
-    image: "/products/Pelican_3310_ELS_Bracket_CAD.jpg",
+    image: "/products/Pelican_3310_ELS_Bracket_01.jpg",
     images: [
       "/products/Pelican_3310_ELS_Bracket_01.jpg",
       "/products/Pelican_3310_ELS_Bracket_02.jpg",
@@ -275,6 +251,30 @@ export const products: Product[] = [
       '1x 3/8-16 x 0.75" Bolt',
     ],
     vehicle: "universal",
+  },
+  {
+    slug: "tacoma-midrange-speaker-mount",
+    name: "Tacoma Midrange Speaker Mount",
+    price: 10,
+    description:
+      "Print-ready STL mount designed to replace the factory tweeter bracket in all 3rd Gen Toyota Tacomas (2016-2023). Fits the JBL Stadium GTO20M Stadium Series 2-inch midrange speakers for a clean, factory-look install with no cutting or modifications required.",
+    longDescription:
+      "Print-ready STL mount designed to replace the factory tweeter bracket in all 3rd Gen Toyota Tacomas (2016-2023). Fits the JBL Stadium GTO20M Stadium Series 2-inch midrange speakers for a clean, factory-look install with no cutting or modifications required.",
+    image: "/products/Tacoma_Tweeter_Adapter_01.jpg",
+    images: [
+      "/products/Tacoma_Tweeter_Adapter_01.jpg",
+      "/products/Tacoma_Tweeter_Adapter_02.jpg",
+    ],
+    category: "Audio",
+    features: [
+      "Fits all 3rd Gen Toyota Tacomas (2016-2023)",
+      "Designed for 2-inch midrange speakers (tested on JBL Stadium GTO20M)",
+      "No cutting or modifications required",
+    ],
+    material: "PETG or ABS",
+    stlFiles: ["Tacoma_tweeter_adapter.stl"],
+    supports: "None",
+    vehicle: "tacoma",
   },
 ];
 
