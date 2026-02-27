@@ -303,12 +303,21 @@ def main():
     all_leads: list[dict] = []
 
     # Reddit
-    try:
-        reddit_leads = search_reddit(seen)
-        all_leads.extend(reddit_leads)
-        print(f"Found {len(reddit_leads)} Reddit leads")
-    except Exception as e:
-        print(f"Reddit search failed: {e}")
+    reddit_env_vars = [
+        os.environ.get("REDDIT_CLIENT_ID"),
+        os.environ.get("REDDIT_CLIENT_SECRET"),
+        os.environ.get("REDDIT_USERNAME"),
+        os.environ.get("REDDIT_PASSWORD"),
+    ]
+    if not all(reddit_env_vars):
+        print("Reddit credentials not found, skipping Reddit monitoring.")
+    else:
+        try:
+            reddit_leads = search_reddit(seen)
+            all_leads.extend(reddit_leads)
+            print(f"Found {len(reddit_leads)} Reddit leads")
+        except Exception as e:
+            print(f"Reddit search failed: {e}")
 
     # TacomaWorld
     try:
