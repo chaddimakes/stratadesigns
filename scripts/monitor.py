@@ -224,7 +224,7 @@ def search_reddit(seen: set[str]) -> list[dict]:
 
 
 def _scrape_tacomaworld_forum(
-    url: str, forum_name: str, cutoff: datetime, debug: bool
+    url: str, forum_name: str, debug: bool
 ) -> list[dict]:
     """Scrape a single TacomaWorld forum page (XenForo 1.x)."""
     headers = {
@@ -276,12 +276,6 @@ def _scrape_tacomaworld_forum(
             if cats:
                 print(f"         ^ MATCH: {cats}")
 
-        # --- TEMPORARY: Date filter disabled for debug ---
-        if not debug:
-            if not post_date or post_date < cutoff:
-                continue
-        # --- END TEMPORARY ---
-
         categories = matches_keywords(title)
         if not categories:
             continue
@@ -301,7 +295,6 @@ def _scrape_tacomaworld_forum(
 
 
 def search_tacomaworld(debug: bool = False) -> list[dict]:
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
     all_leads: list[dict] = []
 
     if debug:
@@ -311,7 +304,7 @@ def search_tacomaworld(debug: bool = False) -> list[dict]:
 
     for forum_name, url in TACOMAWORLD_FORUMS:
         try:
-            leads = _scrape_tacomaworld_forum(url, forum_name, cutoff, debug)
+            leads = _scrape_tacomaworld_forum(url, forum_name, debug)
             all_leads.extend(leads)
         except Exception as e:
             print(f"  [{forum_name}] Error: {e}")
