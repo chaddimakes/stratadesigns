@@ -25,54 +25,78 @@ SUBREDDITS = ["ToyotaTacoma", "overlanding", "4x4", "Tacoma"]
 KEYWORDS = {
     "Raptor Light Brackets": [
         "raptor light bracket",
-        "Tacoma honeycomb grill lights",
-        "Tacoma grill light mount",
-        "Tacoma raptor lights",
+        "raptor light",
+        "raptor lighting",
+        "grill light mount",
+        "grill light bracket",
+        "honeycomb grill light",
+        "grille light",
     ],
     "Roof Rack Camp Light Mount": [
         "roof rack camp light",
-        "Tacoma roof rack lights",
-        "overland camp light mount",
         "roof rack light mount",
+        "roof rack light bar",
+        "overland camp light mount",
         "camp light setup",
+        "camp light mount",
     ],
     "Midrange Speaker Mount": [
-        "Tacoma speaker upgrade",
-        "Tacoma midrange speaker",
-        "Tacoma speaker mount",
+        "speaker upgrade",
+        "midrange speaker",
+        "speaker mount",
+        "speaker install",
+        "speaker replacement",
     ],
     "Glove Box & Center Console Organizer": [
-        "Tacoma glove box organizer",
-        "Tacoma center console organizer",
-        "Tacoma interior storage",
-        "Tacoma cab organization",
+        "glove box organizer",
+        "center console organizer",
+        "interior storage",
+        "cab organization",
+        "console insert",
+        "glove box insert",
     ],
     "Pelican Bed Rail Bracket": [
-        "Pelican case Tacoma bed",
-        "Pelican bed rail mount",
-        "Tacoma bed storage system",
-        "Pelican 3310 mount",
+        "pelican case",
+        "pelican bed rail",
+        "pelican mount",
+        "bed storage system",
+        "bed rail mount",
+        "pelican 3310",
     ],
     "DC Power Panel": [
-        "Tacoma power panel",
-        "Tacoma 12V bed power",
-        "Tacoma bed power setup",
-        "Tacoma DC outlet bed",
+        "power panel",
+        "12v bed power",
+        "bed power setup",
+        "dc outlet bed",
         "overland bed power",
+        "bed power panel",
+        "aux power panel",
     ],
     "General": [
         "Tacoma mods",
         "Tacoma build",
         "Tacoma accessories",
         "overlanding Tacoma",
-        "Tacoma interior mods",
+        "interior mods",
+        "build thread",
     ],
 }
 
 ALL_KEYWORDS = [kw for group in KEYWORDS.values() for kw in group]
 
 SEEN_POSTS_FILE = Path(__file__).parent / "seen_posts.txt"
-TACOMAWORLD_URL = "https://www.tacomaworld.com/forums/accessories-modifications.17/"
+
+# TacomaWorld uses XenForo 1.x — forum IDs found from their forum index.
+# .17 is actually Buy/Sell/Trade. These are the relevant product forums:
+TACOMAWORLD_FORUMS = [
+    ("Lighting", "https://www.tacomaworld.com/forums/lighting.60/"),
+    ("Audio & Video", "https://www.tacomaworld.com/forums/audio-video.12/"),
+    ("3rd Gen Builds", "https://www.tacomaworld.com/forums/3rd-gen-builds-2016-2023.196/"),
+    ("4th Gen Builds", "https://www.tacomaworld.com/forums/4th-gen-builds-2024.293/"),
+    ("General Tacoma Talk", "https://www.tacomaworld.com/forums/general-tacoma-talk.294/"),
+    ("3rd Gen Tacomas", "https://www.tacomaworld.com/forums/3rd-gen-tacomas-2016-2023.186/"),
+    ("4th Gen Tacomas", "https://www.tacomaworld.com/forums/4th-gen-tacomas-2024.292/"),
+]
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -196,39 +220,64 @@ def search_reddit(seen: set[str]) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 
-def search_tacomaworld() -> list[dict]:
+def _scrape_tacomaworld_forum(
+    url: str, forum_name: str, cutoff: datetime, debug: bool
+) -> list[dict]:
+    """Scrape a single TacomaWorld forum page (XenForo 1.x)."""
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
     }
-    resp = requests.get(TACOMAWORLD_URL, headers=headers, timeout=30)
+    resp = requests.get(url, headers=headers, timeout=30)
     resp.raise_for_status()
 
     soup = BeautifulSoup(resp.text, "html.parser")
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
     leads = []
 
-    for thread in soup.select(".structItem--thread"):
-        title_el = thread.select_one(".structItem-title a:last-child")
+    # XenForo 1.x uses .discussionListItem (NOT .structItem--thread)
+    threads = soup.select(".discussionListItem")
+    if debug:
+        print(f"  [{forum_name}] {len(threads)} threads on page")
+
+    for i, thread in enumerate(threads):
+        # Title lives in h3.title > a.PreviewTooltip
+        title_el = thread.select_one("h3.title a")
         if not title_el:
             continue
 
         title = title_el.get_text(strip=True)
         href = title_el.get("href", "")
-        link = f"https://www.tacomaworld.com{href}" if href.startswith("/") else href
+        link = (
+            f"https://www.tacomaworld.com/{href}"
+            if not href.startswith("http")
+            else href
+        )
 
-        # Try to parse the thread date
-        time_el = thread.select_one("time[datetime]")
+        # Date: last-post timestamp is in abbr.DateTime[data-time] (unix epoch)
+        # inside .listBlock.lastPost
+        post_date = None
+        time_el = thread.select_one(".lastPost abbr.DateTime[data-time]")
+        if not time_el:
+            # Fallback: any abbr with data-time
+            time_el = thread.select_one("abbr.DateTime[data-time]")
         if time_el:
             try:
-                post_date = datetime.fromisoformat(
-                    time_el["datetime"].replace("Z", "+00:00")
-                )
-                if post_date < cutoff:
-                    continue
+                ts = int(time_el["data-time"])
+                post_date = datetime.fromtimestamp(ts, tz=timezone.utc)
             except (ValueError, KeyError):
+                pass
+
+        if debug and i < 5:
+            date_str = post_date.strftime("%Y-%m-%d %H:%M") if post_date else "none"
+            cats = matches_keywords(title)
+            print(f"    [{i}] [{date_str}] {title[:70]}")
+            if cats:
+                print(f"         ^ MATCH: {cats}")
+
+        # --- TEMPORARY: Date filter disabled for debug ---
+        if not debug:
+            if not post_date or post_date < cutoff:
                 continue
-        else:
-            continue
+        # --- END TEMPORARY ---
 
         categories = matches_keywords(title)
         if not categories:
@@ -237,7 +286,7 @@ def search_tacomaworld() -> list[dict]:
         leads.append(
             {
                 "platform": "TacomaWorld",
-                "community": "Accessories & Modifications",
+                "community": forum_name,
                 "title": title,
                 "link": link,
                 "body": "",
@@ -246,6 +295,31 @@ def search_tacomaworld() -> list[dict]:
         )
 
     return leads
+
+
+def search_tacomaworld(debug: bool = False) -> list[dict]:
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+    all_leads: list[dict] = []
+
+    if debug:
+        print("\n" + "=" * 70)
+        print("DEBUG: TacomaWorld scraper (XenForo 1.x)")
+        print("=" * 70)
+
+    for forum_name, url in TACOMAWORLD_FORUMS:
+        try:
+            leads = _scrape_tacomaworld_forum(url, forum_name, cutoff, debug)
+            all_leads.extend(leads)
+        except Exception as e:
+            print(f"  [{forum_name}] Error: {e}")
+
+    if debug:
+        print(f"\nTotal TW keyword-matching leads (date filter OFF): {len(all_leads)}")
+        for lead in all_leads:
+            print(f"  [{lead['community']}] [{', '.join(lead['categories'])}] {lead['title'][:60]}")
+        print("=" * 70 + "\n")
+
+    return all_leads
 
 
 # ---------------------------------------------------------------------------
@@ -321,7 +395,7 @@ def main():
 
     # TacomaWorld
     try:
-        tw_leads = search_tacomaworld()
+        tw_leads = search_tacomaworld(debug=False)
         all_leads.extend(tw_leads)
         print(f"Found {len(tw_leads)} TacomaWorld leads")
     except Exception as e:
