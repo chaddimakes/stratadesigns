@@ -214,6 +214,7 @@ def search_reddit(seen: set[str]) -> list[dict]:
                     "link": f"https://www.reddit.com{submission.permalink}",
                     "body": submission.selftext,
                     "categories": categories,
+                    "date": created,
                 }
             )
 
@@ -252,6 +253,17 @@ def _scrape_tacomaworld_page(
 
         author = thread.get("data-author", "")
 
+        # Thread original post date from .startDate (text like "Nov 28, 2020")
+        post_date = None
+        start_el = thread.select_one(".startDate .DateTime")
+        if start_el:
+            try:
+                post_date = datetime.strptime(
+                    start_el.get_text(strip=True), "%b %d, %Y"
+                ).replace(tzinfo=timezone.utc)
+            except ValueError:
+                pass
+
         categories = matches_keywords(title)
         if not categories:
             continue
@@ -265,6 +277,7 @@ def _scrape_tacomaworld_page(
                 "link": link,
                 "body": "",
                 "categories": categories,
+                "date": post_date,
             }
         )
 
@@ -359,7 +372,7 @@ def existing_links(sheet) -> set[str]:
 
 def append_lead(sheet, lead: dict, analysis: dict) -> None:
     row = [
-        datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        lead["date"].strftime("%Y-%m-%d") if lead.get("date") else "",
         lead["platform"],
         lead["community"],
         lead.get("author", ""),
