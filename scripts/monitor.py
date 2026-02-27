@@ -223,25 +223,18 @@ def search_reddit(seen: set[str]) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 
-def _scrape_tacomaworld_forum(
-    url: str, forum_name: str, debug: bool
+def _scrape_tacomaworld_page(
+    soup: BeautifulSoup, forum_name: str, debug: bool, page: int
 ) -> list[dict]:
-    """Scrape a single TacomaWorld forum page (XenForo 1.x)."""
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-    }
-    resp = requests.get(url, headers=headers, timeout=30)
-    resp.raise_for_status()
-
-    soup = BeautifulSoup(resp.text, "html.parser")
+    """Parse threads from a single page of a TacomaWorld forum."""
     leads = []
 
     # XenForo 1.x uses .discussionListItem (NOT .structItem--thread)
     threads = soup.select(".discussionListItem")
     if debug:
-        print(f"  [{forum_name}] {len(threads)} threads on page")
+        print(f"  [{forum_name}] page {page}: {len(threads)} threads")
 
-    for i, thread in enumerate(threads):
+    for thread in threads:
         # Title lives in h3.title > a.PreviewTooltip
         title_el = thread.select_one("h3.title a")
         if not title_el:
@@ -254,27 +247,6 @@ def _scrape_tacomaworld_forum(
             if not href.startswith("http")
             else href
         )
-
-        # Date: last-post timestamp is in abbr.DateTime[data-time] (unix epoch)
-        # inside .listBlock.lastPost
-        post_date = None
-        time_el = thread.select_one(".lastPost abbr.DateTime[data-time]")
-        if not time_el:
-            # Fallback: any abbr with data-time
-            time_el = thread.select_one("abbr.DateTime[data-time]")
-        if time_el:
-            try:
-                ts = int(time_el["data-time"])
-                post_date = datetime.fromtimestamp(ts, tz=timezone.utc)
-            except (ValueError, KeyError):
-                pass
-
-        if debug and i < 5:
-            date_str = post_date.strftime("%Y-%m-%d %H:%M") if post_date else "none"
-            cats = matches_keywords(title)
-            print(f"    [{i}] [{date_str}] {title[:70]}")
-            if cats:
-                print(f"         ^ MATCH: {cats}")
 
         categories = matches_keywords(title)
         if not categories:
@@ -290,6 +262,40 @@ def _scrape_tacomaworld_forum(
                 "categories": categories,
             }
         )
+
+    return leads
+
+
+MAX_TW_PAGES = 50
+
+
+def _scrape_tacomaworld_forum(
+    url: str, forum_name: str, debug: bool
+) -> list[dict]:
+    """Scrape up to MAX_TW_PAGES pages of a TacomaWorld forum (XenForo 1.x)."""
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    }
+    leads = []
+
+    for page in range(1, MAX_TW_PAGES + 1):
+        page_url = url if page == 1 else f"{url}page-{page}"
+        resp = requests.get(page_url, headers=headers, timeout=30)
+        resp.raise_for_status()
+
+        soup = BeautifulSoup(resp.text, "html.parser")
+        page_leads = _scrape_tacomaworld_page(soup, forum_name, debug, page)
+        leads.extend(page_leads)
+
+        # Stop if there's no "Next >" link in the pagination
+        next_link = soup.select_one(".PageNav a.text")
+        if not next_link or "Next" not in next_link.get_text():
+            break
+
+        time.sleep(1)  # be polite to the server
+
+    if debug:
+        print(f"  [{forum_name}] total: {len(leads)} leads across {page} pages")
 
     return leads
 
