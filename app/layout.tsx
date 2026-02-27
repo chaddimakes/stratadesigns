@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar";
+import CartDrawer from "./components/cart-drawer";
 import Footer from "./components/footer";
 import { CartProvider } from "./context/cart-context";
 
@@ -70,6 +71,7 @@ export default function RootLayout({
       >
         <CartProvider>
           <Navbar />
+          <CartDrawer />
           <main className="min-h-screen">{children}</main>
           <Footer />
         </CartProvider>
