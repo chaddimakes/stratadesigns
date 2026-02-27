@@ -107,6 +107,7 @@ SHEET_HEADERS = [
     "Date",
     "Platform",
     "Community",
+    "Author",
     "Thread Title",
     "Link",
     "Relevance Summary",
@@ -208,6 +209,7 @@ def search_reddit(seen: set[str]) -> list[dict]:
                 {
                     "platform": "Reddit",
                     "community": f"r/{sub_name}",
+                    "author": str(submission.author or ""),
                     "title": submission.title,
                     "link": f"https://www.reddit.com{submission.permalink}",
                     "body": submission.selftext,
@@ -248,6 +250,8 @@ def _scrape_tacomaworld_page(
             else href
         )
 
+        author = thread.get("data-author", "")
+
         categories = matches_keywords(title)
         if not categories:
             continue
@@ -256,6 +260,7 @@ def _scrape_tacomaworld_page(
             {
                 "platform": "TacomaWorld",
                 "community": forum_name,
+                "author": author,
                 "title": title,
                 "link": link,
                 "body": "",
@@ -338,7 +343,7 @@ def get_sheet():
     # Ensure headers exist
     existing = sheet.row_values(1)
     if existing != SHEET_HEADERS:
-        sheet.update("A1:I1", [SHEET_HEADERS])
+        sheet.update("A1:J1", [SHEET_HEADERS])
 
     return sheet
 
@@ -346,7 +351,7 @@ def get_sheet():
 def existing_links(sheet) -> set[str]:
     """Return all URLs already in the sheet to avoid duplicates."""
     try:
-        col = sheet.col_values(5)  # Link column (E)
+        col = sheet.col_values(6)  # Link column (F)
         return set(col[1:])  # skip header
     except Exception:
         return set()
@@ -357,6 +362,7 @@ def append_lead(sheet, lead: dict, analysis: dict) -> None:
         datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         lead["platform"],
         lead["community"],
+        lead.get("author", ""),
         lead["title"],
         lead["link"],
         analysis["relevance"],
