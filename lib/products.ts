@@ -41,7 +41,7 @@ export const products: Product[] = [
   {
     slug: "tacoma-raptor-light-brackets",
     name: "Tacoma Raptor Light Brackets",
-    price: 15,
+    price: 20,
     description:
       "3D-printed light pod brackets for the 3rd Gen Toyota Tacoma OEM honeycomb grille. Mounts lights cleanly in the factory grille openings.",
     longDescription:
@@ -123,7 +123,7 @@ export const products: Product[] = [
   {
     slug: "tacoma-glove-box-organizer",
     name: "Tacoma Glove Box Organizer",
-    price: 15,
+    price: 12,
     description:
       "Print-ready STL shelf designed to keep your Tacoma glove box organized. Unlike the cheap, flimsy multi-piece versions on Amazon, this is a single-piece heavy duty shelf that fits perfectly with no assembly required. Note: this is a very large print with a max width of 390mm — if printing on a Bambu Lab H2 series printer, rotate the part on your print bed to fit.",
     longDescription:
@@ -147,7 +147,7 @@ export const products: Product[] = [
   {
     slug: "tacoma-center-console-organizer",
     name: "Tacoma Center Console Organizer",
-    price: 15,
+    price: 12,
     description:
       "Print-ready STL organizer designed to keep your Tacoma center console tidy. Unlike the flimsy multi-piece versions available on Amazon, this is a single-piece heavy duty organizer that fits perfectly with no assembly required.",
     longDescription:
