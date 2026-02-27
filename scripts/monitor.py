@@ -158,7 +158,7 @@ Respond with ONLY valid JSON (no markdown fences) with these keys:
 - "response": a natural, helpful reply that leads with genuine advice. Only mention Proper Polymer and properpolymer.com if their product directly solves the poster's problem. Never be spammy."""
 
     message = client.messages.create(
-        model="claude-haiku-3-5-20251001",
+        model="claude-haiku-4-5-20251001",
         max_tokens=512,
         messages=[{"role": "user", "content": prompt}],
     )
