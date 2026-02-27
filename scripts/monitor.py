@@ -107,6 +107,7 @@ SHEET_HEADERS = [
     "Date",
     "Platform",
     "Community",
+    "Keyword",
     "Author",
     "Thread Title",
     "Link",
@@ -132,14 +133,18 @@ def save_seen_posts(seen: set[str]) -> None:
     SEEN_POSTS_FILE.write_text("\n".join(sorted(seen)) + "\n")
 
 
-def matches_keywords(text: str) -> list[str]:
-    """Return the product categories whose keywords appear in *text*."""
+def matches_keywords(text: str) -> tuple[list[str], list[str]]:
+    """Return (categories, triggering_keywords) for keywords found in *text*."""
     lower = text.lower()
-    matched = []
+    categories = []
+    matched_kws = []
     for category, kws in KEYWORDS.items():
-        if any(kw.lower() in lower for kw in kws):
-            matched.append(category)
-    return matched
+        for kw in kws:
+            if kw.lower() in lower:
+                categories.append(category)
+                matched_kws.append(kw)
+                break
+    return categories, matched_kws
 
 
 def get_ai_analysis(
@@ -200,7 +205,7 @@ def search_reddit(seen: set[str]) -> list[dict]:
                 continue
 
             text = f"{submission.title} {submission.selftext}"
-            categories = matches_keywords(text)
+            categories, matched_kws = matches_keywords(text)
             if not categories:
                 continue
 
@@ -214,6 +219,7 @@ def search_reddit(seen: set[str]) -> list[dict]:
                     "link": f"https://www.reddit.com{submission.permalink}",
                     "body": submission.selftext,
                     "categories": categories,
+                    "matched_keywords": matched_kws,
                     "date": created,
                 }
             )
@@ -265,7 +271,7 @@ def _scrape_tacomaworld_page(
             except ValueError:
                 pass
 
-        categories = matches_keywords(title)
+        categories, matched_kws = matches_keywords(title)
         if not categories:
             continue
 
@@ -278,6 +284,7 @@ def _scrape_tacomaworld_page(
                 "link": link,
                 "body": "",
                 "categories": categories,
+                "matched_keywords": matched_kws,
                 "date": post_date,
             }
         )
@@ -369,7 +376,7 @@ def get_sheet():
     # Ensure headers exist
     existing = sheet.row_values(1)
     if existing != SHEET_HEADERS:
-        sheet.update("A1:J1", [SHEET_HEADERS])
+        sheet.update("A1:K1", [SHEET_HEADERS])
 
     return sheet
 
@@ -377,7 +384,7 @@ def get_sheet():
 def existing_links(sheet) -> set[str]:
     """Return all URLs already in the sheet to avoid duplicates."""
     try:
-        col = sheet.col_values(6)  # Link column (F)
+        col = sheet.col_values(7)  # Link column (G)
         return set(col[1:])  # skip header
     except Exception:
         return set()
@@ -388,6 +395,7 @@ def append_lead(sheet, lead: dict, analysis: dict) -> None:
         lead["date"].strftime("%Y-%m-%d") if lead.get("date") else "",
         lead["platform"],
         lead["community"],
+        ", ".join(lead.get("matched_keywords", [])),
         lead.get("author", ""),
         lead["title"],
         lead["link"],
