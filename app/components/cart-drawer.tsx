@@ -122,9 +122,13 @@ export default function CartDrawer() {
                   </div>
                   <div className="flex min-w-0 flex-1 flex-col justify-between">
                     <div>
-                      <p className="truncate text-sm font-semibold text-white">
+                      <Link
+                        href={`/products/${item.slug}`}
+                        onClick={close}
+                        className="block truncate text-sm font-semibold text-white transition-colors hover:text-accent"
+                      >
                         {item.name}
-                      </p>
+                      </Link>
                       {item.variantName && (
                         <p className="mt-0.5 text-xs text-muted">
                           {item.variantName}
