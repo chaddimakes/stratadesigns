@@ -5,22 +5,23 @@ import { dirname, join } from "path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
 
-const W = 1200;
-const H = 630;
+const W = 2400;
+const H = 1260;
 
 // SVG: dark background, PP mark top-left, centered title + subtitle
+// 2x pixel density (2400x1260) for crisp rendering at 1200x630 OG display size
 const svg = `
 <svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
   <!-- solid dark background -->
   <rect x="0" y="0" width="${W}" height="${H}" fill="#0d0d0d" />
 
   <!-- PP mark — top left -->
-  <rect x="60" y="50" width="56" height="56" rx="10" fill="#e07b39" />
+  <rect x="120" y="100" width="112" height="112" rx="20" fill="#e07b39" />
   <text
-    x="88"
-    y="86"
+    x="176"
+    y="172"
     font-family="'Courier New', Courier, monospace"
-    font-size="24"
+    font-size="48"
     font-weight="700"
     fill="white"
     text-anchor="middle"
@@ -30,35 +31,35 @@ const svg = `
   <!-- title line 1 (orange) -->
   <text
     x="${W / 2}"
-    y="${H / 2 - 60}"
+    y="${H / 2 - 120}"
     font-family="Arial Black, Arial, sans-serif"
-    font-size="52"
+    font-size="104"
     font-weight="900"
     fill="#e07b39"
     text-anchor="middle"
     dominant-baseline="middle"
-    letter-spacing="-1"
+    letter-spacing="-2"
   >I Built an E-Commerce Website</text>
 
   <!-- title line 2 (orange) -->
   <text
     x="${W / 2}"
-    y="${H / 2 + 2}"
+    y="${H / 2 + 4}"
     font-family="Arial Black, Arial, sans-serif"
-    font-size="52"
+    font-size="104"
     font-weight="900"
     fill="#e07b39"
     text-anchor="middle"
     dominant-baseline="middle"
-    letter-spacing="-1"
+    letter-spacing="-2"
   >with Zero Coding Experience</text>
 
   <!-- subtitle (white) -->
   <text
     x="${W / 2}"
-    y="${H / 2 + 80}"
+    y="${H / 2 + 160}"
     font-family="Arial, sans-serif"
-    font-size="28"
+    font-size="56"
     font-weight="400"
     fill="white"
     text-anchor="middle"
@@ -68,9 +69,9 @@ const svg = `
 
   <text
     x="${W / 2}"
-    y="${H / 2 + 118}"
+    y="${H / 2 + 236}"
     font-family="Arial, sans-serif"
-    font-size="28"
+    font-size="56"
     font-weight="400"
     fill="white"
     text-anchor="middle"
@@ -81,7 +82,7 @@ const svg = `
 `.trim();
 
 await sharp(Buffer.from(svg))
-  .jpeg({ quality: 90 })
+  .jpeg({ quality: 100 })
   .toFile(join(root, "public", "blog-og-image.jpg"));
 
 console.log("blog-og-image.jpg written to public/");
