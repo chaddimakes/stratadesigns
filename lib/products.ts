@@ -288,7 +288,7 @@ export const products: Product[] = [
     image: "/products/Offroad_hand_bolts_CAD.jpg",
     images: [
       "/products/Offroad_hand_bolts_CAD.jpg",
-      "/products/Offroad_hand_nut_CAD.jpg",
+      "/products/Offroad_handle_nut_CAD.jpg",
     ],
     category: "Universal",
     features: [
@@ -311,7 +311,7 @@ export const products: Product[] = [
       {
         when: { embedNut: true },
         stlFiles: ["Offroad_handle_nut.stl"],
-        previewImage: "/products/Offroad_hand_nut_CAD.jpg",
+        previewImage: "/products/Offroad_handle_nut_CAD.jpg",
         requiredHardware: [
           "2x M6 x 20mm Bolts",
           "2x M6 Square Nuts ⚠️ Embedded during print — pause print midway to insert nuts",
