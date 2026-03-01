@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: "article",
     images: [
       {
-        url: "https://www.properpolymer.com/blog-og-image.jpg",
+        url: "https://www.properpolymer.com/og/blog",
         width: 1200,
         height: 630,
         alt: "I Built an E-Commerce Website with Zero Coding Experience",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
       "I Built an E-Commerce Website with Zero Coding Experience — Here's How",
     description:
       "The side business was always the plan. The website was always the excuse. Claude helped me run out of excuses.",
-    images: ["https://www.properpolymer.com/blog-og-image.jpg"],
+    images: ["https://www.properpolymer.com/og/blog"],
   },
 };
 
