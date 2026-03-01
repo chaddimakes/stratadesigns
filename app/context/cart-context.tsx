@@ -21,41 +21,29 @@ export interface CartItem {
   selectedFiles?: string[];
 }
 
+/** Composite key that uniquely identifies a cart line item (slug + variant). */
+export function cartKey(item: { slug: string; variantName?: string }): string {
+  return item.variantName ? `${item.slug}::${item.variantName}` : item.slug;
+}
+
 interface CartState {
   items: CartItem[];
 }
 
 type CartAction =
   | { type: "ADD_ITEM"; item: CartItem }
-  | { type: "REMOVE_ITEM"; slug: string }
-  | { type: "UPDATE_QUANTITY"; slug: string; quantity: number }
+  | { type: "REMOVE_ITEM"; key: string }
+  | { type: "UPDATE_QUANTITY"; key: string; quantity: number }
   | { type: "CLEAR_CART" }
   | { type: "LOAD_CART"; items: CartItem[] };
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case "ADD_ITEM": {
-      const existing = state.items.find((i) => i.slug === action.item.slug);
+      const newKey = cartKey(action.item);
+      const existing = state.items.find((i) => cartKey(i) === newKey);
       if (existing) {
-        // Replace if the file selection changed (toggle products)
-        const filesChanged =
-          action.item.selectedFiles !== undefined &&
-          JSON.stringify(action.item.selectedFiles) !== JSON.stringify(existing.selectedFiles);
-        // Replace if a different named variant is selected
-        const variantChanged =
-          action.item.variantName !== undefined &&
-          action.item.variantName !== existing.variantName;
-        if (filesChanged || variantChanged) {
-          return {
-            ...state,
-            items: state.items.map((i) =>
-              i.slug === action.item.slug
-                ? { ...action.item, quantity: 1 }
-                : i,
-            ),
-          };
-        }
-        // Same product with same configuration — do not add a duplicate
+        // Same product+variant combination already in cart — do not add a duplicate
         return state;
       }
       return {
@@ -66,19 +54,19 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     case "REMOVE_ITEM":
       return {
         ...state,
-        items: state.items.filter((i) => i.slug !== action.slug),
+        items: state.items.filter((i) => cartKey(i) !== action.key),
       };
     case "UPDATE_QUANTITY":
       if (action.quantity <= 0) {
         return {
           ...state,
-          items: state.items.filter((i) => i.slug !== action.slug),
+          items: state.items.filter((i) => cartKey(i) !== action.key),
         };
       }
       return {
         ...state,
         items: state.items.map((i) =>
-          i.slug === action.slug ? { ...i, quantity: action.quantity } : i,
+          cartKey(i) === action.key ? { ...i, quantity: action.quantity } : i,
         ),
       };
     case "CLEAR_CART":
@@ -93,8 +81,8 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 interface CartContextValue {
   items: CartItem[];
   addItem: (item: Omit<CartItem, "quantity">) => void;
-  removeItem: (slug: string) => void;
-  updateQuantity: (slug: string, quantity: number) => void;
+  removeItem: (key: string) => void;
+  updateQuantity: (key: string, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
@@ -137,12 +125,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [],
   );
   const removeItem = useCallback(
-    (slug: string) => dispatch({ type: "REMOVE_ITEM", slug }),
+    (key: string) => dispatch({ type: "REMOVE_ITEM", key }),
     [],
   );
   const updateQuantity = useCallback(
-    (slug: string, quantity: number) =>
-      dispatch({ type: "UPDATE_QUANTITY", slug, quantity }),
+    (key: string, quantity: number) =>
+      dispatch({ type: "UPDATE_QUANTITY", key, quantity }),
     [],
   );
   const clearCart = useCallback(() => dispatch({ type: "CLEAR_CART" }), []);

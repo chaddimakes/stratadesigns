@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useCart } from "@/app/context/cart-context";
+import { useCart, cartKey } from "@/app/context/cart-context";
 import { useRouter } from "next/navigation";
 import type { Product } from "@/lib/products";
 import ImageGallery from "./image-gallery";
@@ -66,11 +66,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const effectiveVariantName = toggleVariantName ?? selectedVariant;
   const selectedFiles = currentCombination?.stlFiles;
 
-  const existingItem = items.find((i) => i.slug === product.slug);
-  const inCartWithSameConfig =
-    existingItem !== undefined &&
-    existingItem.variantName === effectiveVariantName &&
-    JSON.stringify(existingItem.selectedFiles) === JSON.stringify(selectedFiles);
+  const inCartWithSameConfig = items.some(
+    (i) => cartKey(i) === cartKey({ slug: product.slug, variantName: effectiveVariantName }),
+  );
 
   function handleToggle(key: string, value: boolean) {
     setToggles((prev) => ({ ...prev, [key]: value }));

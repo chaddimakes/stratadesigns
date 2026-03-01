@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useCart } from "@/app/context/cart-context";
+import { useCart, cartKey } from "@/app/context/cart-context";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -46,7 +46,7 @@ export default function CartPage() {
         <div className="space-y-4">
           {items.map((item) => (
             <div
-              key={item.slug}
+              key={cartKey(item)}
               className="flex gap-4 rounded-lg border border-border bg-surface p-4"
             >
               <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border border-border bg-[#141414]">
@@ -78,7 +78,7 @@ export default function CartPage() {
 
                 <div className="flex items-center justify-end">
                   <button
-                    onClick={() => removeItem(item.slug)}
+                    onClick={() => removeItem(cartKey(item))}
                     className="text-xs text-muted transition-colors hover:text-red-400"
                   >
                     Remove
@@ -97,7 +97,7 @@ export default function CartPage() {
 
           <div className="space-y-3 text-sm">
             {items.map((item) => (
-              <div key={item.slug} className="flex justify-between text-muted">
+              <div key={cartKey(item)} className="flex justify-between text-muted">
                 <span>{item.name}</span>
                 <span>${item.price.toFixed(2)}</span>
               </div>

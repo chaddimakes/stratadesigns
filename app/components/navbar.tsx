@@ -47,6 +47,7 @@ const shopLinks = [
 ];
 
 const companyLinks = [
+  { label: "Learn", href: "/learn" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

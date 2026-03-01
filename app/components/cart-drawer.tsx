@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "@/app/context/cart-context";
+import { useCart, cartKey } from "@/app/context/cart-context";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -109,7 +109,7 @@ export default function CartDrawer() {
             <ul className="space-y-4">
               {items.map((item) => (
                 <li
-                  key={item.slug}
+                  key={cartKey(item)}
                   className="flex gap-3 rounded-lg border border-border bg-surface p-3"
                 >
                   <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md border border-border bg-[#141414]">
@@ -136,7 +136,7 @@ export default function CartDrawer() {
                         ${item.price.toFixed(2)}
                       </span>
                       <button
-                        onClick={() => removeItem(item.slug)}
+                        onClick={() => removeItem(cartKey(item))}
                         className="text-xs text-muted transition-colors hover:text-red-400"
                       >
                         Remove

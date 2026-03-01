@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "@/app/context/cart-context";
+import { useCart, cartKey } from "@/app/context/cart-context";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Product } from "@/lib/products";
@@ -13,10 +13,9 @@ export default function AddToCartButton({ product }: { product: Product }) {
     product.variants?.[0]?.name,
   );
 
-  const existingItem = items.find((i) => i.slug === product.slug);
-  const inCartWithSameVariant =
-    existingItem !== undefined &&
-    existingItem.variantName === selectedVariant;
+  const inCartWithSameVariant = items.some(
+    (i) => cartKey(i) === cartKey({ slug: product.slug, variantName: selectedVariant }),
+  );
 
   function handleAddToCart() {
     if (inCartWithSameVariant) {
