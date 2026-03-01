@@ -320,6 +320,31 @@ export const products: Product[] = [
     ],
     vehicle: "universal",
   },
+  {
+    slug: "tacoma-bed-cubby-covers",
+    name: "Tacoma Bed Cubby Covers",
+    price: 15,
+    description:
+      "Print-ready STL covers designed to block water and dust from entering the Toyota Tacoma side bed cubbies. The perfect companion to the DC Power Panel — keep moisture and debris away from your electronics. To install, remove the bed cubby from the truck bed and secure with VHB tape. Recommended materials: PETG, ABS, or ASA.",
+    longDescription:
+      "Print-ready STL covers designed to block water and dust from entering the Toyota Tacoma side bed cubbies. The perfect companion to the DC Power Panel — keep moisture and debris away from your electronics. To install, remove the bed cubby from the truck bed and secure with VHB tape. Recommended materials: PETG, ABS, or ASA.",
+    image: "/products/Tacoma_Bed_Box_Cover_CAD.jpg",
+    images: ["/products/Tacoma_Bed_Box_Cover_CAD.jpg"],
+    category: "Exterior",
+    features: [
+      "Blocks water and dust from Toyota Tacoma side bed cubbies",
+      "Perfect companion to the DC Power Panel",
+      "Simple install with VHB tape",
+    ],
+    material: "PETG, ABS, or ASA",
+    stlFiles: [
+      "Tacoma_Bed_Box_Cover_Bottom.stl",
+      "Tacoma_Bed_Box_Cover_Top.stl",
+    ],
+    supports: "None",
+    requiredHardware: ["VHB Tape"],
+    vehicle: "tacoma",
+  },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
