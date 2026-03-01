@@ -216,13 +216,13 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         <p className="mb-8 leading-relaxed text-muted [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-accent-hover" dangerouslySetInnerHTML={{ __html: product.longDescription }} />
 
         {/* Required Hardware */}
-        {product.requiredHardware && product.requiredHardware.length > 0 && (
+        {((currentCombination?.requiredHardware ?? product.requiredHardware)?.length ?? 0) > 0 && (
           <div className="mb-8">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground">
               Required Hardware
             </h2>
             <ul className="space-y-2">
-              {product.requiredHardware.map((item) => {
+              {(currentCombination?.requiredHardware ?? product.requiredHardware ?? []).map((item) => {
                 const warningIndex = item.indexOf("⚠️");
                 return (
                   <li

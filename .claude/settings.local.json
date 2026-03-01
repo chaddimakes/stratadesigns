@@ -13,7 +13,10 @@
       "Bash(xargs grep:*)",
       "Bash(xargs wc:*)",
       "Bash(npm run:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(python:*)",
+      "Bash(where python:*)",
+      "Bash(pip install:*)"
     ]
   }
 }

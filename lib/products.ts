@@ -14,6 +14,7 @@ export interface ProductToggleCombination {
   when: Record<string, boolean>;
   stlFiles: string[];
   previewImage?: string;
+  requiredHardware?: string[];
 }
 
 export interface Product {
@@ -275,6 +276,49 @@ export const products: Product[] = [
     stlFiles: ["Tacoma_tweeter_adapter.stl"],
     supports: "None",
     vehicle: "tacoma",
+  },
+  {
+    slug: "offroad-handle",
+    name: "Offroad Handle",
+    price: 15,
+    description:
+      "A sturdy, print-ready STL offroad handle with 7\" on-center bolt spacing. Tested and fits the RSI SmartCap. Recommended material: ASA.",
+    longDescription:
+      "A sturdy, print-ready STL offroad handle with 7\" on-center bolt spacing. Tested and fits the RSI SmartCap. Recommended material: ASA.",
+    image: "/products/Offroad_hand_bolts_CAD.jpg",
+    images: [
+      "/products/Offroad_hand_bolts_CAD.jpg",
+      "/products/Offroad_hand_nut_CAD.jpg",
+    ],
+    category: "Universal",
+    features: [
+      '7" on-center bolt spacing',
+      "Tested and fits the RSI SmartCap",
+      "Two mount styles: bolt-through or embedded nut",
+    ],
+    material: "ASA",
+    supports: "None",
+    toggleOptions: [
+      { key: "embedNut", label: "Embedded Nut", default: false },
+    ],
+    toggleCombinations: [
+      {
+        when: { embedNut: false },
+        stlFiles: ["Offroad_handle_bolts.stl"],
+        previewImage: "/products/Offroad_hand_bolts_CAD.jpg",
+        requiredHardware: ["2x M6 x 20mm Bolts", "2x M6 Hex Nuts"],
+      },
+      {
+        when: { embedNut: true },
+        stlFiles: ["Offroad_handle_nut.stl"],
+        previewImage: "/products/Offroad_hand_nut_CAD.jpg",
+        requiredHardware: [
+          "2x M6 x 20mm Bolts",
+          "2x M6 Square Nuts ⚠️ Embedded during print — pause print midway to insert nuts",
+        ],
+      },
+    ],
+    vehicle: "universal",
   },
 ];
 
