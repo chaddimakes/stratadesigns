@@ -2,7 +2,7 @@ name: Daily Community Monitor
 
 on:
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "0 15 * * *"  # 7:00 AM PST / 8:00 AM PDT
   workflow_dispatch:
 
 jobs:

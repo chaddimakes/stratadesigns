@@ -233,13 +233,19 @@ def search_reddit(seen: set[str]) -> list[dict]:
 
 
 def _scrape_tacomaworld_page(
-    soup: BeautifulSoup, forum_name: str, debug: bool, page: int
-) -> tuple[list[dict], int]:
+    soup: BeautifulSoup, forum_name: str, debug: bool, page: int,
+    cutoff: datetime,
+) -> tuple[list[dict], int, bool]:
     """Parse threads from a single page of a TacomaWorld forum.
 
-    Returns (leads, total_threads_on_page).
+    Returns (leads, total_threads_on_page, all_threads_old).
+    *all_threads_old* is True when every thread with a parseable date on
+    this page is older than the cutoff, meaning subsequent pages will be
+    older too and pagination can stop early.
     """
     leads = []
+    dated_count = 0
+    old_count = 0
 
     # XenForo 1.x uses .discussionListItem (NOT .structItem--thread)
     threads = soup.select(".discussionListItem")
@@ -271,6 +277,14 @@ def _scrape_tacomaworld_page(
             except ValueError:
                 pass
 
+        # Apply 24-hour cutoff: skip threads older than cutoff,
+        # but include threads with no parseable date.
+        if post_date is not None:
+            dated_count += 1
+            if post_date < cutoff:
+                old_count += 1
+                continue
+
         categories, matched_kws = matches_keywords(title)
         if not categories:
             continue
@@ -289,14 +303,17 @@ def _scrape_tacomaworld_page(
             }
         )
 
-    return leads, len(threads)
+    # If every dated thread on this page is old, all subsequent pages will be too
+    all_threads_old = dated_count > 0 and old_count == dated_count
+
+    return leads, len(threads), all_threads_old
 
 
 MAX_TW_PAGES = 50
 
 
 def _scrape_tacomaworld_forum(
-    url: str, forum_name: str, debug: bool
+    url: str, forum_name: str, debug: bool, cutoff: datetime
 ) -> list[dict]:
     """Scrape up to MAX_TW_PAGES pages of a TacomaWorld forum (XenForo 1.x)."""
     headers = {
@@ -312,12 +329,16 @@ def _scrape_tacomaworld_forum(
         resp.raise_for_status()
 
         soup = BeautifulSoup(resp.text, "html.parser")
-        page_leads, page_thread_count = _scrape_tacomaworld_page(
-            soup, forum_name, debug, page
+        page_leads, page_thread_count, all_old = _scrape_tacomaworld_page(
+            soup, forum_name, debug, page, cutoff
         )
         leads.extend(page_leads)
         total_threads += page_thread_count
         pages_scraped += 1
+
+        # Stop early if every thread on this page is older than the cutoff
+        if all_old:
+            break
 
         # Stop if there's no "Next >" link in the pagination.
         # select_one would grab "< Prev" on page 2+, so check all a.text links.
@@ -340,21 +361,23 @@ def _scrape_tacomaworld_forum(
 
 def search_tacomaworld(debug: bool = False) -> list[dict]:
     all_leads: list[dict] = []
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
 
     if debug:
         print("\n" + "=" * 70)
         print("DEBUG: TacomaWorld scraper (XenForo 1.x)")
+        print(f"  24-hour cutoff: {cutoff.isoformat()}")
         print("=" * 70)
 
     for forum_name, url in TACOMAWORLD_FORUMS:
         try:
-            leads = _scrape_tacomaworld_forum(url, forum_name, debug)
+            leads = _scrape_tacomaworld_forum(url, forum_name, debug, cutoff)
             all_leads.extend(leads)
         except Exception as e:
             print(f"  [{forum_name}] Error: {e}")
 
     if debug:
-        print(f"\nTotal TW keyword-matching leads (date filter OFF): {len(all_leads)}")
+        print(f"\nTotal TW keyword-matching leads (last 24h): {len(all_leads)}")
         for lead in all_leads:
             print(f"  [{lead['community']}] [{', '.join(lead['categories'])}] {lead['title'][:60]}")
         print("=" * 70 + "\n")
