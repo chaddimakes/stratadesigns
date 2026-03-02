@@ -5,6 +5,7 @@ Searches Reddit and TacomaWorld for relevant threads and logs leads to Google Sh
 
 import json
 import os
+import re
 import time
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -232,6 +233,81 @@ def search_reddit(seen: set[str]) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 
+def _parse_tw_date(el) -> datetime | None:
+    """Try multiple strategies to extract a datetime from a XenForo .DateTime element.
+
+    Strategies (in order):
+    1. data-time attribute (Unix timestamp)
+    2. data-datestring attribute (e.g. "Mar 2, 2026")
+    3. Visible text: "Nov 28, 2020"
+    4. Visible text: "Today at 7:30 AM"
+    5. Visible text: "Yesterday at 7:30 AM"
+    6. Visible text: "X minutes ago" / "X hours ago" (relative)
+    """
+    now = datetime.now(timezone.utc)
+
+    # 1. Unix timestamp in data-time attribute
+    data_time = el.get("data-time")
+    if data_time:
+        try:
+            return datetime.fromtimestamp(int(data_time), tz=timezone.utc)
+        except (ValueError, OSError):
+            pass
+
+    # 2. data-datestring attribute (e.g. "Mar 2, 2026")
+    data_datestring = el.get("data-datestring")
+    if data_datestring:
+        for fmt in ("%b %d, %Y", "%B %d, %Y", "%Y-%m-%d"):
+            try:
+                return datetime.strptime(data_datestring, fmt).replace(
+                    tzinfo=timezone.utc
+                )
+            except ValueError:
+                continue
+
+    # Parse from visible text
+    text = el.get_text(strip=True)
+
+    # 3. Standard date format: "Nov 28, 2020"
+    try:
+        return datetime.strptime(text, "%b %d, %Y").replace(tzinfo=timezone.utc)
+    except ValueError:
+        pass
+
+    # 4. "Today at 7:30 AM"
+    m = re.match(r"Today at (\d{1,2}:\d{2} [AP]M)", text, re.IGNORECASE)
+    if m:
+        try:
+            t = datetime.strptime(m.group(1), "%I:%M %p")
+            return now.replace(
+                hour=t.hour, minute=t.minute, second=0, microsecond=0
+            )
+        except ValueError:
+            pass
+
+    # 5. "Yesterday at 7:30 AM"
+    m = re.match(r"Yesterday at (\d{1,2}:\d{2} [AP]M)", text, re.IGNORECASE)
+    if m:
+        try:
+            t = datetime.strptime(m.group(1), "%I:%M %p")
+            yesterday = now - timedelta(days=1)
+            return yesterday.replace(
+                hour=t.hour, minute=t.minute, second=0, microsecond=0
+            )
+        except ValueError:
+            pass
+
+    # 6. Relative: "X minutes ago", "X hours ago"
+    m = re.match(r"(\d+)\s+minute", text, re.IGNORECASE)
+    if m:
+        return now - timedelta(minutes=int(m.group(1)))
+    m = re.match(r"(\d+)\s+hour", text, re.IGNORECASE)
+    if m:
+        return now - timedelta(hours=int(m.group(1)))
+
+    return None
+
+
 def _scrape_tacomaworld_page(
     soup: BeautifulSoup, forum_name: str, debug: bool, page: int,
     cutoff: datetime,
@@ -266,24 +342,21 @@ def _scrape_tacomaworld_page(
 
         author = thread.get("data-author", "")
 
-        # Thread original post date from .startDate (text like "Nov 28, 2020")
+        # Thread original post date from .startDate .DateTime element
         post_date = None
         start_el = thread.select_one(".startDate .DateTime")
         if start_el:
-            try:
-                post_date = datetime.strptime(
-                    start_el.get_text(strip=True), "%b %d, %Y"
-                ).replace(tzinfo=timezone.utc)
-            except ValueError:
-                pass
+            post_date = _parse_tw_date(start_el)
 
-        # Apply 24-hour cutoff: skip threads older than cutoff,
-        # but include threads with no parseable date.
-        if post_date is not None:
-            dated_count += 1
-            if post_date < cutoff:
-                old_count += 1
-                continue
+        # Default to now if date still couldn't be determined
+        if post_date is None:
+            post_date = datetime.now(timezone.utc)
+
+        # Apply 24-hour cutoff
+        dated_count += 1
+        if post_date < cutoff:
+            old_count += 1
+            continue
 
         categories, matched_kws = matches_keywords(title)
         if not categories:
