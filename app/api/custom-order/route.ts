@@ -29,25 +29,36 @@ export async function POST(req: NextRequest) {
       req.headers.get("referer")?.replace(/\/$/, "") ||
       "https://www.properpolymer.com";
 
+    const productDescription = notes
+      ? `${description}\n\nNotes: ${notes}`
+      : description;
+
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
           price_data: {
             currency: "usd",
-            product_data: { name: `Custom Order — ${description}` },
+            product_data: {
+              name: `Custom Order — ${description}`,
+              description: notes || undefined,
+            },
             unit_amount: amount,
           },
           quantity: 1,
         },
       ],
       mode: "payment",
+      customer_email: customerEmail,
       shipping_address_collection: { allowed_countries: ["US"] },
       success_url: `${origin}/custom-order?success=1`,
       cancel_url: origin,
+      payment_intent_data: {
+        receipt_email: customerEmail,
+      },
       metadata: {
         customerName,
         customerEmail,
-        description,
+        description: productDescription,
         notes: notes || "",
       },
     });
@@ -85,8 +96,8 @@ export async function POST(req: NextRequest) {
           <p style="margin:0 0 28px;color:#666666;font-size:14px;line-height:1.5;">Your custom order is ready for payment. Click the link below to complete checkout.</p>
 
           <div style="margin-bottom:24px;padding:16px 20px;border:1px solid #e8e8e8;border-radius:6px;background:#fafafa;">
-            <p style="margin:0 0 4px;font-weight:600;color:#111111;font-size:14px;">${description}</p>
-            <p style="margin:0;color:#666666;font-size:14px;">Total: <strong style="color:#111111;">$${formattedPrice}</strong></p>
+            <p style="margin:0 0 4px;font-weight:600;color:#111111;font-size:14px;">${description}</p>${notes ? `\n            <p style="margin:6px 0 0;color:#888888;font-size:13px;line-height:1.5;">${notes}</p>` : ""}
+            <p style="margin:8px 0 0;color:#666666;font-size:14px;">Total: <strong style="color:#111111;">$${formattedPrice}</strong></p>
           </div>
 
           <a href="${session.url}" style="display:inline-block;background:#e07b39;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:6px;">Complete Payment</a>
@@ -104,13 +115,25 @@ export async function POST(req: NextRequest) {
       </div>
     </div>`;
 
-    await transporter.sendMail({
-      from: `"Proper Polymer" <hello@properpolymer.com>`,
+    console.log(`[custom-order] Verifying SMTP transporter...`);
+    await transporter.verify();
+    console.log(`[custom-order] SMTP transporter verified OK`);
+
+    const notesText = notes ? `\nNotes: ${notes}\n` : "";
+    console.log(`[custom-order] Sending payment link to ${customerEmail}...`);
+
+    const info = await transporter.sendMail({
+      from: `"Proper Polymer" <${process.env.CONTACT_EMAIL_USER}>`,
+      replyTo: "hello@properpolymer.com",
       to: customerEmail,
       subject: `Your Custom Order from Proper Polymer — $${formattedPrice}`,
       html,
-      text: `Hi ${customerName},\n\nYour custom order is ready for payment.\n\n${description}\nTotal: $${formattedPrice}\n\nComplete payment here: ${session.url}\n\n— Proper Polymer\nhello@properpolymer.com`,
+      text: `Hi ${customerName},\n\nYour custom order is ready for payment.\n\n${description}${notesText}\nTotal: $${formattedPrice}\n\nComplete payment here: ${session.url}\n\n— Proper Polymer\nhello@properpolymer.com`,
     });
+
+    console.log(`[custom-order] Email sent — messageId: ${info.messageId}`);
+    console.log(`[custom-order]   accepted: ${JSON.stringify(info.accepted)}`);
+    console.log(`[custom-order]   rejected: ${JSON.stringify(info.rejected)}`);
 
     return NextResponse.json({ ok: true, email: customerEmail });
   } catch (err) {
