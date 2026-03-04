@@ -138,9 +138,12 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true, email: customerEmail });
   } catch (err) {
-    console.error("Custom order error:", err);
+    const message = err instanceof Error ? err.message : String(err);
+    const stack = err instanceof Error ? err.stack : undefined;
+    console.error("[custom-order] FAILED:", message);
+    if (stack) console.error("[custom-order] Stack:", stack);
     return NextResponse.json(
-      { error: "Failed to create custom order" },
+      { error: message },
       { status: 500 },
     );
   }
