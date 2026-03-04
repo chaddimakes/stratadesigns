@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
       mode: "payment",
       customer_email: customerEmail,
       shipping_address_collection: { allowed_countries: ["US"] },
-      success_url: `${origin}/custom-order/success`,
+      success_url: `${origin}/custom-order/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: origin,
       metadata: {
         customerName,
